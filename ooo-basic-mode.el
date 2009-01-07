@@ -157,10 +157,10 @@
   "Level 2.")
 
 (defvar ooo-basic-font-lock-keywords-3
-  (let ((bultins (append ooo-basic-builtin-operators
+  (let ((builtins (append ooo-basic-builtin-operators
                          ooo-basic-builtin-functions)))
     (append ooo-basic-font-lock-keywords-2
-            '((,(regexp-opt builtins 'words) 0 font-lock-builtin-face)
+            `((,(regexp-opt builtins 'words) 0 font-lock-builtin-face)
               )))
   "Level 3.")
 

@@ -39,7 +39,6 @@
   '("As"
     "ByVal"
     "Case"
-    "Close"
     "Const"
     "Do"
     "Dim"
@@ -50,6 +49,7 @@
     "Explicit"
     "False"
     "For"
+    "Global"
     "GoTo"
     "If"
     "Input"
@@ -57,15 +57,17 @@
     "Loop"
     "Next"
     "On"
-    "Open"
     "Option"
     "Optional"
+    "Private"
+    "Public"
     "Resume"
     "Select"
     "Static"
     "Then"
     "To"
     "True"
+    "Wend"
     "When"
     "While"
     "With"
@@ -86,26 +88,36 @@
   "Basic types used in OpenOffice.org Basic.")
 
 (defvar ooo-basic-global-variables
-  '("Erl"
-    "Err"
-    "Error$"
+  '("Erl" "Err" "Error$"
     "StarDesktop"
     )
   "Global Variables provided in OpenOffice.org Basic.")
 
 (defvar ooo-basic-builtin-operators
-  '("AND"
-    "EQV"
-    "IMP"
+  '("AND" "EQV" "IMP" "NOT" "OR" "XOR"
     "MOD"
-    "NOT"
-    "OR"
-    "XOR"
     )
   "Builtin operators available in OpenOffice.org Basic.")
 
+(defvar ooo-basic-builtin-properties
+  '("BasicLibraries" "DialogLibraries" "GlobalScope")
+  "Builtin properties available in OpenOffice.org Basic.")
+
 (defvar ooo-basic-builtin-functions
-  '("createUnoService"
+  '("CBool" "CDate" "CDbl" "CInt" "CLng" "CSng" "CStr" "Val"
+    "IsArray" "IsDate" "IsNumeric"
+    "Asc" "Char"
+    "Left" "Right" "Mid" "Len" "InStr"
+    "Format" "DateSerial" "TimeSerial"
+    "Day" "Month" "Year" "Weekday" "Hour" "Minute" "Second"
+    "Date" "Time" "Now"
+    "Dir" "MkDir" "RmDir" "FileCopy" "Kill" "FileExists" "GetAttr" "SetAttr"
+    "FileDateTime" "FileLen" "FreeFile" "Open" "Close" "Print" "eof"
+    "MsgBox" "InputBox"
+    "Beep" "Wait" "Environ"
+    "LBound" "UBound"
+    "createUnoService"
+    "ConvertToUrl"
     )
   "Builtin functions available in OpenOffice.org Basic.")
 
@@ -128,7 +140,7 @@
        ("\\<\\(Sub\\|Function\\|Type\\)\\>" nil nil (1 font-lock-keyword-face))
        )
       ("\\<REM\\>"
-       (0 font-lock-comment-delimiter-face)
+       (0 ,(if (boundp 'font-lock-comment-delimiter-face) 'font-lock-comment-delimiter-face 'font-lock-comment-face))
        (".*$" nil nil (0 font-lock-comment-face))
        )
       )
@@ -139,7 +151,8 @@
   (append ooo-basic-font-lock-keywords-1
           `(,(regexp-opt ooo-basic-keywords 'words)
             (,(regexp-opt ooo-basic-types 'words) 0 font-lock-type-face)
-            (,(regexp-opt ooo-basic-global-variables 'words) 0 font-lock-constant-face)
+            (,(regexp-opt (append ooo-basic-global-variables ooo-basic-builtin-properties) 'words)
+             0 font-lock-constant-face)
             ))
   "Level 2.")
 
@@ -154,6 +167,9 @@
 (defvar ooo-basic-mode-syntax-table
   (let ((table (make-syntax-table)))
     (with-syntax-table table
+      (modify-syntax-entry ?_ "w")
+      (modify-syntax-entry ?\\ "w") ; backslash is *not* an escape character
+      (modify-syntax-entry ?\" "\"\\")
       (modify-syntax-entry ?\' "<")
       (modify-syntax-entry ?\n ">")
       (modify-syntax-entry ?\= ".")
@@ -175,7 +191,10 @@
 (defun ooo-basic-indent-line ()
   "Indent the current line as OpenOffice.org Basic source text."
   (interactive)
-  (let ((status (save-excursion (syntax-ppss (point-at-bol))))
+  (let ((status (save-excursion
+                  (if (functionp 'syntax-ppss)
+                      (syntax-ppss (point-at-bol))
+                    (parse-partial-sexp (point-min) (point-at-bol)))))
         (offset (- (current-column) (current-indentation))))
     (unless (nth 8 status)
       (indent-line-to (ooo-basic-indentation status))
@@ -206,7 +225,11 @@ Key bindings:
          nil t nil))
   (setq major-mode 'ooo-basic-mode)
   (setq mode-name "OOo-Basic")
-  (run-mode-hooks 'ooo-basic-mode-hook))
+  (if (functionp 'run-mode-hooks)
+      (run-mode-hooks 'ooo-basic-mode-hook)
+    (run-hooks 'ooo-basic-mode-hook)
+    (when (boundp 'after-change-major-mode-hook)
+      (run-hooks 'after-change-major-mode-hook))))
 
 (provide 'ooo-basic-mode)
 ;;; ooo-basic-mode.el ends here

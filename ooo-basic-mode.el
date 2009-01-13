@@ -168,6 +168,7 @@
   (let ((table (make-syntax-table)))
     (with-syntax-table table
       (modify-syntax-entry ?_ "w")
+      (modify-syntax-entry ?\$ "w")
       (modify-syntax-entry ?\\ "w") ; backslash is *not* an escape character
       (modify-syntax-entry ?\" "\"\\")
       (modify-syntax-entry ?\' "<")

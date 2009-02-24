@@ -217,6 +217,8 @@ Key bindings:
   (kill-all-local-variables)
   (use-local-map ooo-basic-mode-map)
   (set-syntax-table ooo-basic-mode-syntax-table)
+  (set (make-local-variable 'comment-start) "'")
+  (set (make-local-variable 'comment-end) "")
   (set (make-local-variable 'indent-line-function) 'ooo-basic-indent-line)
   (set (make-local-variable 'parse-sexp-ignore-comments) t) 
   (set (make-local-variable 'font-lock-defaults)

@@ -117,7 +117,7 @@
     "Beep" "Wait" "Environ"
     "LBound" "UBound"
     "createUnoService"
-    "ConvertToUrl"
+    "ConvertFromUrl" "ConvertToUrl"
     )
   "Builtin functions available in OpenOffice.org Basic.")
 

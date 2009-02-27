@@ -171,7 +171,7 @@
 
 (defvar ooo-basic-font-lock-keywords-3
   (let ((builtins (append ooo-basic-builtin-operators
-                         ooo-basic-builtin-functions)))
+                          ooo-basic-builtin-functions)))
     (append ooo-basic-font-lock-keywords-2
             `((,(regexp-opt builtins 'words) 0 font-lock-builtin-face)
               )))

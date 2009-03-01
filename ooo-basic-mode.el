@@ -38,6 +38,7 @@
 (defvar ooo-basic-keywords
   '("As"
     "ByVal"
+    "Call"
     "Case"
     "Const"
     "Do"
@@ -64,6 +65,7 @@
     "Public"
     "Resume"
     "Select"
+    "Set"
     "Static"
     "Then"
     "To"

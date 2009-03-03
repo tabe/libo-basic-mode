@@ -63,6 +63,7 @@
     "Optional"
     "Private"
     "Public"
+    "ReDim"
     "Resume"
     "Select"
     "Set"

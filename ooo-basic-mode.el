@@ -94,6 +94,7 @@
 (defvar ooo-basic-global-variables
   '("Erl" "Err" "Error$"
     "StarDesktop"
+    "ThisComponent"
     )
   "Global Variables provided in OpenOffice.org Basic.")
 

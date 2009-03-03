@@ -160,6 +160,10 @@
        (0 font-lock-keyword-face)
        ("\\<\\(Sub\\|Function\\)\\>" nil nil (1 font-lock-keyword-face))
        )
+      ("\\<ReDim\\>"
+       (0 font-lock-keyword-face)
+       ("\\<Preserve\\>" nil nil (0 font-lock-keyword-face))
+       )
       ("\\<REM\\>"
        (0 ,(if (boundp 'font-lock-comment-delimiter-face) 'font-lock-comment-delimiter-face 'font-lock-comment-face))
        (".*$" nil nil (0 font-lock-comment-face))

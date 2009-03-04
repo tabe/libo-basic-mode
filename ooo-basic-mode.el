@@ -132,7 +132,8 @@
     "Randomize" "Rnd" "Sqr" "Fix" "Int" "Abs" "Sgn" "Hex" "Oct"
     "GetSolarVersion"
     "TwipsPerPixelX" "TwipsPerPixelY"
-    "CreateUnoDialog" "CreateUnoService" "CreateUnoStruct" "GetProcessServiceManager"
+    "CreateUnoDialog" "CreateUnoListener" "CreateUnoService" "CreateUnoStruct"
+    "GetProcessServiceManager"
     "ConvertFromUrl" "ConvertToUrl"
     "CompatibilityMode"
     )

@@ -112,7 +112,7 @@
 
 (defvar ooo-basic-builtin-functions
   '("CBool" "CDate" "CDbl" "CInt" "CLng" "CSng" "CStr" "Val"
-    "IsArray" "IsDate" "IsEmpty" "IsNull" "IsNumeric" "IsObject"
+    "IsArray" "IsDate" "IsEmpty" "IsNull" "IsNumeric" "IsObject" "IsMissing"
     "Asc" "Chr" "Str" "Val" "Space" "String"
     "Left" "Right" "Mid" "Len" "InStr" "LTrim" "RTrim" "Trim" "StrComp"
     "Format" "LCase" "UCase"

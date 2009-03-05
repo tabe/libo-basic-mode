@@ -88,6 +88,7 @@
     "Object"
     "Single"
     "String"
+    "Variant"
     )
   "Basic types used in OpenOffice.org Basic.")
 

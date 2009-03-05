@@ -37,6 +37,7 @@
 
 (defvar ooo-basic-keywords
   '("As"
+    "ByRef"
     "ByVal"
     "Call"
     "Case"

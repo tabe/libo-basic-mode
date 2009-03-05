@@ -140,7 +140,7 @@
   "Builtin functions available in OpenOffice.org Basic.")
 
 (defvar ooo-basic-definition-start-re
-  "^[ \t]*\\(Sub\\|Function\\|Type\\)\\>"
+  "^[ \t]*\\(?:Public\\|Private\\)?[ \t]*\\(Sub\\|Function\\|Type\\)\\>"
   "Regexp to detect the start of a definition.")
 
 (defvar ooo-basic-definition-end-re

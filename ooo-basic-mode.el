@@ -58,6 +58,7 @@
     "Let"
     "Line"
     "Loop"
+    "New"
     "Next"
     "On"
     "Option"

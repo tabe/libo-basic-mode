@@ -204,6 +204,7 @@
       (modify-syntax-entry ?\= ".")
       (modify-syntax-entry ?\< ".")
       (modify-syntax-entry ?\> ".")
+      (modify-syntax-entry ?# "'")
       table))
   "Syntax table used in ooo-basic-mode.")
 

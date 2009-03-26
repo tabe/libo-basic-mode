@@ -1246,6 +1246,42 @@
          (OUTER)                        ; 2
          )
         )
+       (configuration
+        (backend
+         (NodeAttribute
+          (FINALIZED) ; 256
+          (MANDATORY) ; 512
+          (READONLY)  ; 1024
+          (FUSE)      ; 2048
+          (MASK)      ; 32512; // 0xFF00, changed to 0x7F00 because only 3 bits)
+          )
+         (SchemaAttribute
+          (REQUIRED)                    ; 1
+          (LOCALIZED)                   ; 2
+          (EXTENSIBLE)                  ; 4
+          (MASK)                        ; 255; // 0x00FF
+          )
+         )
+        )
+       (datatransfer
+        (clipboard
+         (RenderingCapabilities
+          (Delayed)                     ; 1
+          (Persistant)                  ; 2
+          )
+         )
+        (dnd
+         (DNDConstants
+          (ACTION_NONE)                 ; 0x00
+          (ACTION_COPY)                 ; 0x01
+          (ACTION_MOVE)                 ; 0x02
+          (ACTION_COPY_OR_MOVE)         ; 0x03
+          (ACTION_LINK)                 ; 0x04
+          (ACTION_REFERENCE)            ; 0x04
+          (ACTION_DEFAULT)              ; 0x80
+          )
+         )
+        )
        (document
         (LinkUpdateModes
          (NEVER)                        ; 0
@@ -1436,6 +1472,29 @@
          )
         )
        (form
+        (runtime
+         (FormFeature
+          (MoveAbsolute)                ; 1
+          (TotalRecords)                ; 2
+          (MoveToFirst)                 ; 3
+          (MoveToPrevious)              ; 4
+          (MoveToNext)                  ; 5
+          (MoveToLast)                  ; 6
+          (MoveToInsertRow)             ; 7
+          (SaveRecordChanges)           ; 8
+          (UndoRecordChanges)           ; 9
+          (DeleteRecord)                ; 10
+          (ReloadForm)                  ; 11
+          (SortAscending)               ; 12
+          (SortDescending)              ; 13
+          (InteractiveSort)             ; 14
+          (AutoFilter)                  ; 15
+          (InteractiveFilter)           ; 16
+          (ToggleApplyFilter)           ; 17
+          (RemoveFilterAndSort)         ; 18
+          (RefreshCurrentControl)       ; 19
+          )
+         )
         (FormComponentType
          (CONTROL)                      ; 1
          (COMMANDBUTTON)                ; 2
@@ -1462,6 +1521,16 @@
          )
         )
        (frame
+        (status
+         (ItemState
+          (unknown)                     ; 0
+          (disabled)                    ; 1
+          (read_only)                   ; 2
+          (dont_care)                   ; 16
+          (default_value)               ; 32
+          (set)                         ; 64
+          )
+         )
         (CommandGroup
          (INTERNAL)                     ; 0
          (APPLICATION)                  ; 1
@@ -1784,7 +1853,7 @@
          (NUMBER_1000INT)               ; NUMBER_START+3
          (NUMBER_1000DEC2)              ; NUMBER_START+4
          (NUMBER_SYSTEM)                ; NUMBER_START+5
-         (NUMBER_END)                   ; NUMBER_SYSTEM 
+         (NUMBER_END)                   ; NUMBER_SYSTEM
          (SCIENTIFIC_START)             ; NUMBER_END+1
          (SCIENTIFIC_000E000)           ; SCIENTIFIC_START
          (SCIENTIFIC_000E00)            ; SCIENTIFIC_START+1
@@ -2028,6 +2097,64 @@
          (FINER)                        ; 400
          (FINEST)                       ; 300
          (ALL)                          ; -0x80000000
+         )
+        )
+       (packages
+        (zip
+         (ZipConstants
+          (DEFLATED)                    ; 8
+          (NO_COMPRESSION)              ; 0
+          (BEST_SPEED)                  ; 1
+          (BEST_COMPRESSION)            ; 9
+          (DEFAULT_COMPRESSION)         ; -1
+          (FILTERED)                    ; 1
+          (HUFFMAN_ONLY)                ; 2
+          (DEFAULT_STRATEGY)            ; 0
+          (STORED)                      ; 0
+          (DEF_MEM_LEVEL)               ; 8
+          (LOCSIG)                      ; 0x04034b50
+          (EXTSIG)                      ; 0x08074b50
+          (CENSIG)                      ; 0x02014b50
+          (ENDSIG)                      ; 0x06054b50
+          (SPANSIG)                     ; 0x08074b50
+          (LOCHDR)                      ; 30
+          (EXTHDR)                      ; 16
+          (CENHDR)                      ; 46
+          (ENDHDR)                      ; 22
+          (LOCVER)                      ; 4
+          (LOCFLG)                      ; 6
+          (LOCHOW)                      ; 8
+          (LOCTIM)                      ; 10
+          (LOCCRC)                      ; 14
+          (LOCSIZ)                      ; 18
+          (LOCLEN)                      ; 22
+          (LOCNAM)                      ; 26
+          (LOCEXT)                      ; 28
+          (EXTCRC)                      ; 4
+          (EXTSIZ)                      ; 8
+          (EXTLEN)                      ; 12
+          (CENVEM)                      ; 4
+          (CENVER)                      ; 6
+          (CENFLG)                      ; 8
+          (CENHOW)                      ; 10
+          (CENTIM)                      ; 12
+          (CENDAT)                      ; 14
+          (CENCRC)                      ; 16
+          (CENSIZ)                      ; 20
+          (CENLEN)                      ; 24
+          (CENNAM)                      ; 28
+          (CENEXT)                      ; 30
+          (CENCOM)                      ; 32
+          (CENDSK)                      ; 34
+          (CENATT)                      ; 36
+          (CENATX)                      ; 38
+          (CENOFF)                      ; 42
+          (ENDSUB)                      ; 8
+          (ENDTOT)                      ; 10
+          (ENDSIZ)                      ; 12
+          (ENDOFF)                      ; 16
+          (ENDCOM)                      ; 20
+          )
          )
         )
        (plugin
@@ -2456,7 +2583,67 @@
          (AUTO)                         ; 2
          )
         )
+       (script
+        (browse
+         (BrowseNodeFactoryViewTypes
+          (MACROSELECTOR)               ; 0
+          (MACROORGANIZER)              ; 1
+          )
+         (BrowseNodeTypes
+          (SCRIPT)                      ; 0
+          (CONTAINER)                   ; 1
+          (ROOT)                        ; 2
+          )
+         )
+        (provider
+         (ScriptFrameworkErrorType
+          (UNKNOWN)                     ; 0
+          (NOTSUPPORTED)                ; 1
+          )
+         )
+        )
        (sdb
+        (application
+         (CopyTableContinuation
+          (Proceed)                     ; 0
+          (CallNextHandler)             ; 1
+          (Cancel)                      ; 2
+          (AskUser)                     ; 3
+          )
+         (CopyTableOperation
+          (CopyDefinitionAndData)       ; 0
+          (CopyDefinitionOnly)          ; 1
+          (CreateAsView)                ; 2
+          (AppendData)                  ; 3
+          )
+         (DatabaseObject
+          (TABLE)                      ; com::sun::star::sdb::CommandType::TABLE
+          (QUERY)                      ; com::sun::star::sdb::CommandType::QUERY
+          (FORM)                       ; 2
+          (REPORT)                     ; 3
+          )
+         (DatabaseObjectContainer
+          (TABLES)                      ; 1000
+          (QUERIES)                     ; 1001
+          (FORMS)                       ; 1002
+          (REPORTS)                     ; 1003
+          (DATA_SOURCE)                 ; 1004
+          (CATALOG)                     ; 1005
+          (SCHEMA)                      ; 1006
+          (FORMS_FOLDER)                ; 1007
+          (REPORTS_FOLDER)              ; 1008
+          )
+         )
+        (tools
+         (CompositionType
+          (ForTableDefinitions)         ; 0
+          (ForIndexDefinitions)         ; 1
+          (ForDataManipulation)         ; 2
+          (ForProcedureCalls)           ; 3
+          (ForPrivilegeDefinitions)     ; 4
+          (Complete)                    ; 5
+          )
+         )
         (BooleanComparisonMode
          (EQUAL_INTEGER)                ; 0
          (IS_LITERAL)                   ; 1
@@ -2643,27 +2830,27 @@
         )
        (security
         (CertificateCharacters
-         (SELF_SIGNED)                  ; 0x00000001 
-         (HAS_PRIVATE_KEY)              ; 0x00000004 
+         (SELF_SIGNED)                  ; 0x00000001
+         (HAS_PRIVATE_KEY)              ; 0x00000004
          )
         (CertificateValidity
          (VALID)                        ; 0x00000000
-         (INVALID)                      ; 0x00000001 
-         (UNTRUSTED)                    ; 0x00000002 
-         (TIME_INVALID)                 ; 0x00000004 
+         (INVALID)                      ; 0x00000001
+         (UNTRUSTED)                    ; 0x00000002
+         (TIME_INVALID)                 ; 0x00000004
          (NOT_TIME_NESTED)              ; 0x00000008
-         (REVOKED)                      ; 0x00000010 
-         (UNKNOWN_REVOKATION)           ; 0x00000020 
-         (SIGNATURE_INVALID)            ; 0x00000040 
-         (EXTENSION_INVALID)            ; 0x00000080 
-         (EXTENSION_UNKNOWN)            ; 0x00000100 
+         (REVOKED)                      ; 0x00000010
+         (UNKNOWN_REVOKATION)           ; 0x00000020
+         (SIGNATURE_INVALID)            ; 0x00000040
+         (EXTENSION_INVALID)            ; 0x00000080
+         (EXTENSION_UNKNOWN)            ; 0x00000100
          (ISSUER_UNKNOWN)               ; 0x00000200
-         (ISSUER_UNTRUSTED)             ; 0x00000400 
-         (ISSUER_INVALID)               ; 0x00001000 
-         (ROOT_UNKNOWN)                 ; 0x00002000 
-         (ROOT_UNTRUSTED)               ; 0x00004000 
-         (ROOT_INVALID)                 ; 0x00010000 
-         (CHAIN_INCOMPLETE)             ; 0x00020000 
+         (ISSUER_UNTRUSTED)             ; 0x00000400
+         (ISSUER_INVALID)               ; 0x00001000
+         (ROOT_UNKNOWN)                 ; 0x00002000
+         (ROOT_UNTRUSTED)               ; 0x00004000
+         (ROOT_INVALID)                 ; 0x00010000
+         (CHAIN_INCOMPLETE)             ; 0x00020000
          )
         (KeyUsage
          (DIGITAL_SIGNATURE)            ; 0x80
@@ -3290,6 +3477,75 @@
          )
         )
        (ui
+        (dialogs
+         (CommonFilePickerElementIds
+          (PUSHBUTTON_OK)               ; 1
+          (PUSHBUTTON_CANCEL)           ; 2
+          (LISTBOX_FILTER)              ; 3
+          (CONTROL_FILEVIEW)            ; 4
+          (EDIT_FILEURL)                ; 5
+          (LISTBOX_FILTER_LABEL)        ; 6
+          (EDIT_FILEURL_LABEL)          ; 7
+          )
+         (ControlActions
+          (ADD_ITEM)                    ; 1
+          (ADD_ITEMS)                   ; 2
+          (DELETE_ITEM)                 ; 3
+          (DELETE_ITEMS)                ; 4
+          (SET_SELECT_ITEM)             ; 5
+          (GET_ITEMS)                   ; 6
+          (GET_SELECTED_ITEM)           ; 7
+          (GET_SELECTED_ITEM_INDEX)     ; 8
+          (SET_HELP_URL)                ; 100
+          (GET_HELP_URL)                ; 101
+          )
+         (ExecutableDialogResults
+          (CANCEL)                      ; 0
+          (OK)                          ; 1
+          )
+         (ExtendedFilePickerElementIds
+          (CHECKBOX_AUTOEXTENSION)       ; 100
+          (CHECKBOX_PASSWORD)            ; 101
+          (CHECKBOX_FILTEROPTIONS)       ; 102
+          (CHECKBOX_READONLY)            ; 103
+          (CHECKBOX_LINK)                ; 104
+          (CHECKBOX_PREVIEW)             ; 105
+          (PUSHBUTTON_PLAY)              ; 106
+          (LISTBOX_VERSION)              ; 107
+          (LISTBOX_TEMPLATE)             ; 108
+          (LISTBOX_IMAGE_TEMPLATE)       ; 109
+          (CHECKBOX_SELECTION)           ; 110
+          (LISTBOX_VERSION_LABEL)        ; 207
+          (LISTBOX_TEMPLATE_LABEL)       ; 208
+          (LISTBOX_IMAGE_TEMPLATE_LABEL) ; 209
+          (LISTBOX_FILTER_SELECTOR)      ; 210
+          )
+         (FilePreviewImageFormats
+          (BITMAP)                      ; 1
+          )
+         (ListboxControlActions
+          (ADD_ITEM)                    ; 1
+          (ADD_ITEMS)                   ; 2
+          (DELETE_ITEM)                 ; 3
+          (DELETE_ITEMS)                ; 4
+          (SET_SELECT_ITEM)             ; 5
+          (GET_ITEMS)                   ; 6
+          (GET_SELECTED_ITEM)           ; 7
+          )
+         (TemplateDescription
+          (FILEOPEN_SIMPLE)                               ; 0
+          (FILESAVE_SIMPLE)                               ; 1
+          (FILESAVE_AUTOEXTENSION_PASSWORD)               ; 2
+          (FILESAVE_AUTOEXTENSION_PASSWORD_FILTEROPTIONS) ; 3
+          (FILESAVE_AUTOEXTENSION_SELECTION)              ; 4
+          (FILESAVE_AUTOEXTENSION_TEMPLATE)               ; 5
+          (FILEOPEN_LINK_PREVIEW_IMAGE_TEMPLATE)          ; 6
+          (FILEOPEN_PLAY)                                 ; 7
+          (FILEOPEN_READONLY_VERSION)                     ; 8
+          (FILEOPEN_LINK_PREVIEW)                         ; 9
+          (FILESAVE_AUTOEXTENSION)                        ; 10
+          )
+         )
         (ActionTriggerSeparatorType
          (LINE)                         ; 0
          (SPACE)                        ; 1
@@ -3390,6 +3646,14 @@
          (ENTIRE_PAGE)                  ; 2
          (BY_VALUE)                     ; 3
          (PAGE_WIDTH_EXACT)             ; 4
+         )
+        )
+       (xml
+        (sax
+         (FastToken
+          (DONTKNOW)                    ; -1
+          (NAMESPACE)                   ; 0x00010000
+          )
          )
         )
        (xsd

@@ -151,28 +151,26 @@
   "Regexp to detect the end of a definition.")
 
 (defvar ooo-basic-font-lock-keywords-1
-  (eval-when-compile
-    `((,ooo-basic-definition-start-re
-       (1 font-lock-keyword-face)
-       ("\\<\\([A-z_][A-z_0-9]*\\)\\>.*$" nil nil (1 font-lock-function-name-face))
-       )
-      (,ooo-basic-definition-end-re
-       (0 font-lock-keyword-face)
-       ("\\<\\(Sub\\|Function\\|Type\\)\\>" nil nil (1 font-lock-keyword-face))
-       )
-      ("\\<Exit\\>"
-       (0 font-lock-keyword-face)
-       ("\\<\\(Sub\\|Function\\)\\>" nil nil (1 font-lock-keyword-face))
-       )
-      ("\\<ReDim\\>"
-       (0 font-lock-keyword-face)
-       ("\\<Preserve\\>" nil nil (0 font-lock-keyword-face))
-       )
-      ("\\<REM\\>"
-       (0 ,(if (boundp 'font-lock-comment-delimiter-face) 'font-lock-comment-delimiter-face 'font-lock-comment-face))
-       (".*$" nil nil (0 font-lock-comment-face))
-       )
-      )
+  `((,ooo-basic-definition-start-re
+     (1 font-lock-keyword-face)
+     ("\\<\\([A-z_][A-z_0-9]*\\)\\>.*$" nil nil (1 font-lock-function-name-face))
+     )
+    (,ooo-basic-definition-end-re
+     (0 font-lock-keyword-face)
+     ("\\<\\(Sub\\|Function\\|Type\\)\\>" nil nil (1 font-lock-keyword-face))
+     )
+    ("\\<Exit\\>"
+     (0 font-lock-keyword-face)
+     ("\\<\\(Sub\\|Function\\)\\>" nil nil (1 font-lock-keyword-face))
+     )
+    ("\\<ReDim\\>"
+     (0 font-lock-keyword-face)
+     ("\\<Preserve\\>" nil nil (0 font-lock-keyword-face))
+     )
+    ("\\<REM\\>"
+     (0 ,(if (boundp 'font-lock-comment-delimiter-face) 'font-lock-comment-delimiter-face 'font-lock-comment-face))
+     (".*$" nil nil (0 font-lock-comment-face))
+     )
     )
   "Level 1.")
 
@@ -208,6 +206,148 @@
       (modify-syntax-entry ?# "'")
       table))
   "Syntax table used in ooo-basic-mode.")
+
+(defvar ooo-basic-uno-modules
+  '((com
+     (sun
+      (star
+       (accessibility)
+       (animations)
+       (auth)
+       (awt
+        (tree)
+        )
+       (beans)
+       (bridge
+        (oleautomation)
+        )
+       (chart)
+       (chart2
+        (data)
+        )
+       (configuration
+        (backend
+         (xml)
+         )
+        (bootstrap)
+        )
+       (connection)
+       (container)
+       (corba)
+       (datatransfer
+        (clipboard)
+        (dnd)
+        )
+       (deployment
+        (ui)
+        )
+       (document)
+       (drawing
+        (framework)
+        )
+       (embed)
+       (form
+        (binding)
+        (component)
+        (control)
+        (inspection)
+        (runtime)
+        (submission)
+        (validation)
+        )
+       (formula)
+       (frame
+        (status)
+        )
+       (gallery)
+       (geometry)
+       (graphic)
+       (i18n)
+       (image)
+       (inspection)
+       (installation)
+       (io)
+       (java)
+       (lang)
+       (ldap)
+       (linguistic2)
+       (loader)
+       (logging)
+       (mail)
+       (media)
+       (mozilla)
+       (oooimprovement)
+       (packages
+        (manifest)
+        (zip)
+        )
+       (plugin)
+       (presentation)
+       (rdf)
+       (reflection)
+       (registry)
+       (rendering)
+       (report
+        (inspection)
+        )
+       (resource)
+       (scanner)
+       (script
+        (browse)
+        (provider)
+        )
+       (sdb
+        (application)
+        (tools)
+        )
+       (sdbc)
+       (sdbcx)
+       (security)
+       (setup)
+       (sheet)
+       (smarttags)
+       (style)
+       (svg)
+       (system)
+       (table)
+       (task)
+       (test
+        (bridge)
+        (performance)
+        )
+       (text
+        (FieldMaster)
+        (textfield
+         (docinfo)
+         )
+        )
+       (ucb)
+       (ui
+        (dialogs)
+        )
+       (uno)
+       (uri)
+       (util)
+       (view)
+       (xforms)
+       (xml
+        (crypt
+         (sax)
+         )
+        (csax)
+        (dom
+         (events)
+         (views)
+         )
+        (input)
+        (sax)
+        (wrapper)
+        (xpath)
+        )
+       (xsd)
+       ))))
+  "Modules in UNO."
+  )
 
 (defvar ooo-basic-uno-constants
   '((com
@@ -3689,6 +3829,10 @@
      ))
   "Constants in UNO.")
 
+(defvar ooo-basic-idl-reference-url-base
+  "http://api.openoffice.org/docs/common/ref/"
+  "The base URL for the IDL reference.")
+
 (defun append-map (f ls)
   "Like mapcar, expect that the results are appended into one."
   (apply 'append (mapcar f ls)))
@@ -3716,6 +3860,11 @@ nil otherwise."
     (dolist (e ls (reverse r))
       (setq r (cons (list e i) r))
       (setq i (+ i 1)))))
+
+(defun ooo-basic-uno-name-to-list (name)
+  "Return the list of symbols obtained by splitting the argument at '.'."
+  (and (< 0 (length name))
+       (mapcar 'intern (split-string name "\\."))))
 
 (defun ooo-basic-possible-sequences (forest)
   (append-map
@@ -3751,8 +3900,7 @@ nil otherwise."
               forest))))))
 
 (defun ooo-basic-uno-constant-completion (str)
-  (let* ((sep (split-string str "\\."))
-         (seq (mapcar 'intern sep))
+  (let* ((seq (ooo-basic-uno-name-to-list str))
          (seb (mapconcat 'symbol-name (butlast seq) ".")))
     (with-index
      (mapcar
@@ -3766,6 +3914,28 @@ nil otherwise."
    (completing-read
     "Constant: "
     (dynamic-completion-table ooo-basic-uno-constant-completion))))
+
+(defun ooo-basic-uno-module-name-p (name)
+  "Return non-nil if there exists a UNO module which has the given name,
+nil otherwise."
+  (let ((seq (ooo-basic-uno-name-to-list name)))
+    (and seq
+         (ooo-basic-traverse seq ooo-basic-uno-modules))))
+
+(defun ooo-basic-idl-reference-url (name)
+  "Return the URL of the IDL reference of a given name."
+  (cond ((ooo-basic-uno-module-name-p name)
+         (concat ooo-basic-idl-reference-url-base
+                 (replace-regexp-in-string "\\." "/" name)
+                 "/module-ix.html"))))
+
+(defun ooo-basic-browse-idl-reference (name)
+  "Browse the IDL reference on a given topic."
+  (interactive "sName: ")
+  (let ((url (ooo-basic-idl-reference-url name)))
+    (if url
+        (browse-url url)
+      (message "name '%s' is not a UNO one." name))))
 
 (defun ooo-basic-indentation (parse-status)
   "Return the proper indentation for the current line."
@@ -3805,6 +3975,7 @@ Key bindings:
   (kill-all-local-variables)
   (use-local-map ooo-basic-mode-map)
   (define-key ooo-basic-mode-map "\C-c\C-ic" 'ooo-basic-insert-uno-constant)
+  (define-key ooo-basic-mode-map "\C-c\C-b" 'ooo-basic-browse-idl-reference)
   (set-syntax-table ooo-basic-mode-syntax-table)
   (set (make-local-variable 'comment-start) "'")
   (set (make-local-variable 'comment-end) "")

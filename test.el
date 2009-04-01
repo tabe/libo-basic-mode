@@ -22,5 +22,15 @@
 (assert (ooo-basic-uno-module-name-p "com.sun.star"))
 (assert (ooo-basic-uno-module-name-p "com.sun.star.packages.zip"))
 
+(assert (not (ooo-basic-uno-constant-group-name-p "")))
+(assert (not (ooo-basic-uno-constant-group-name-p "com.sun.star")))
+(assert (ooo-basic-uno-constant-group-name-p "com.sun.star.accessibility.AccessibleEventId"))
+(assert (not (ooo-basic-uno-constant-group-name-p "com.sun.star.accessibility.AccessibleEventId.NAME_CHANGED")))
+(assert (ooo-basic-uno-constant-group-name-p "com.sun.star.awt.Command"))
+(assert (not (ooo-basic-uno-constant-group-name-p "com.sun.star.xml.sax")))
+(assert (ooo-basic-uno-constant-group-name-p "com.sun.star.xml.sax.FastToken"))
+
 (assert (string= "http://api.openoffice.org/docs/common/ref/com/sun/star/module-ix.html"
                  (ooo-basic-idl-reference-url "com.sun.star")))
+(assert (string= "http://api.openoffice.org/docs/common/ref/com/sun/star/accessibility/AccessibleEventId.html"
+                 (ooo-basic-idl-reference-url "com.sun.star.accessibility.AccessibleEventId")))

@@ -16,6 +16,34 @@
 
 (require 'font-lock)
 
+(defun append-map (f ls)
+  "Like mapcar, expect that the results are appended into one."
+  (apply 'append (mapcar f ls)))
+
+(defun filter-map (f ls)
+  "Like mapcar, expect that only non-nil are saved."
+  (let ((r nil))
+    (dolist (e ls (reverse r))
+      (let ((x (funcall f e)))
+        (when x
+          (setq r (cons x r)))))))
+
+(defun initial-string-p (s str)
+  "Return t if the first string is a initial string of the second one,
+nil otherwise."
+  (let ((len (length s)))
+    (or (= 0 len)
+        (and (<= len (length str))
+             (string= s (substring str 0 len))))))
+
+(defun with-index (ls)
+  "Return the list ((e_0 0) (e_1 1) ... (e_n n)) of pairs, where the given one is (e_0 e_1 ... e_n)."
+  (let ((r nil)
+        (i 0))
+    (dolist (e ls (reverse r))
+      (setq r (cons (list e i) r))
+      (setq i (+ i 1)))))
+
 (defconst ooo-basic-mode-version "0.0.1"
   "Version string for ooo-basic-mode.")
 
@@ -3829,37 +3857,25 @@
      ))
   "Constants in UNO.")
 
+(defun ooo-basic-uno-constants-to-constant-groups (constants)
+  "Return the constant groups in UNO from constants."
+  (filter-map
+   #'(lambda (y)
+       (and
+        (or (cdr y)
+            (not (symbolp (car y))))
+        (cons (car y)
+              (ooo-basic-uno-constants-to-constant-groups (cdr y)))))
+   constants))
+
+(defvar ooo-basic-uno-constant-groups
+  (ooo-basic-uno-constants-to-constant-groups
+   ooo-basic-uno-constants)
+  "Constant Groups in UNO.")
+
 (defvar ooo-basic-idl-reference-url-base
   "http://api.openoffice.org/docs/common/ref/"
   "The base URL for the IDL reference.")
-
-(defun append-map (f ls)
-  "Like mapcar, expect that the results are appended into one."
-  (apply 'append (mapcar f ls)))
-
-(defun filter-map (f ls)
-  "Like mapcar, expect that only non-nil are saved."
-  (let ((r nil))
-    (dolist (e ls (reverse r))
-      (let ((x (funcall f e)))
-        (when x
-          (setq r (cons x r)))))))
-
-(defun initial-string-p (s str)
-  "Return t if the first string is a initial string of the second one,
-nil otherwise."
-  (let ((len (length s)))
-    (or (= 0 len)
-        (and (<= len (length str))
-             (string= s (substring str 0 len))))))
-
-(defun with-index (ls)
-  "Return the list ((e_0 0) (e_1 1) ... (e_n n)) of pairs, where the given one is (e_0 e_1 ... e_n)."
-  (let ((r nil)
-        (i 0))
-    (dolist (e ls (reverse r))
-      (setq r (cons (list e i) r))
-      (setq i (+ i 1)))))
 
 (defun ooo-basic-uno-name-to-list (name)
   "Return the list of symbols obtained by splitting the argument at '.'."
@@ -3922,12 +3938,23 @@ nil otherwise."
     (and seq
          (ooo-basic-traverse seq ooo-basic-uno-modules))))
 
+(defun ooo-basic-uno-constant-group-name-p (name)
+  "Return non-nil if there exists a UNO constant group which has the given name,
+nil otherwise."
+  (let ((seq (ooo-basic-uno-name-to-list name)))
+    (and seq
+         (let ((s (ooo-basic-traverse seq ooo-basic-uno-constant-groups)))
+           (and s
+                (null (cdr s))
+                (not (string-match "\\." (car s))))))))
+
 (defun ooo-basic-idl-reference-url (name)
   "Return the URL of the IDL reference of a given name."
-  (cond ((ooo-basic-uno-module-name-p name)
-         (concat ooo-basic-idl-reference-url-base
-                 (replace-regexp-in-string "\\." "/" name)
-                 "/module-ix.html"))))
+  (let ((slashed (replace-regexp-in-string "\\." "/" name)))
+    (cond ((ooo-basic-uno-module-name-p name)
+           (concat ooo-basic-idl-reference-url-base slashed "/module-ix.html"))
+          ((ooo-basic-uno-constant-group-name-p name)
+           (concat ooo-basic-idl-reference-url-base slashed ".html")))))
 
 (defun ooo-basic-browse-idl-reference (name)
   "Browse the IDL reference on a given topic."

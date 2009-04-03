@@ -3938,15 +3938,23 @@ nil otherwise."
     (and seq
          (ooo-basic-traverse seq ooo-basic-uno-modules))))
 
-(defun ooo-basic-uno-constant-group-name-p (name)
-  "Return non-nil if there exists a UNO constant group which has the given name,
-nil otherwise."
+(defun ooo-basic-uno-name-of-path (name forest)
   (let ((seq (ooo-basic-uno-name-to-list name)))
     (and seq
-         (let ((s (ooo-basic-traverse seq ooo-basic-uno-constant-groups)))
+         (let ((s (ooo-basic-traverse seq forest)))
            (and s
                 (null (cdr s))
                 (not (string-match "\\." (car s))))))))
+
+(defun ooo-basic-uno-constant-group-name-p (name)
+  "Return non-nil if there exists a UNO constant group which has the given name,
+nil otherwise."
+  (ooo-basic-uno-name-of-path name ooo-basic-uno-constant-groups))
+
+(defun ooo-basic-uno-constant-name-p (name)
+  "Return non-nil if there exists a UNO constant which has the given name,
+nil otherwise."
+  (ooo-basic-uno-name-of-path name ooo-basic-uno-constants))
 
 (defun ooo-basic-idl-reference-url (name)
   "Return the URL of the IDL reference of a given name."
@@ -3954,7 +3962,14 @@ nil otherwise."
     (cond ((ooo-basic-uno-module-name-p name)
            (concat ooo-basic-idl-reference-url-base slashed "/module-ix.html"))
           ((ooo-basic-uno-constant-group-name-p name)
-           (concat ooo-basic-idl-reference-url-base slashed ".html")))))
+           (concat ooo-basic-idl-reference-url-base slashed ".html"))
+          ((ooo-basic-uno-constant-name-p name)
+           (let ((seq (split-string name "\\.")))
+             (apply 'concat
+                    ooo-basic-idl-reference-url-base
+                    (mapconcat 'identity (butlast seq) "/")
+                    ".html#"
+                    (last seq)))))))
 
 (defun ooo-basic-browse-idl-reference (name)
   "Browse the IDL reference on a given topic."

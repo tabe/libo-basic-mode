@@ -3915,13 +3915,23 @@ nil otherwise."
                        (cdr tree)))))
               forest))))))
 
-(defun ooo-basic-uno-constant-completion (str)
+(defun ooo-basic-uno-completion-function (str forest)
   (let* ((seq (ooo-basic-uno-name-to-list str))
          (seb (mapconcat 'symbol-name (butlast seq) ".")))
     (with-index
      (mapcar
       #'(lambda (x) (if (= 0 (length seb)) x (concat seb "." x)))
-      (ooo-basic-traverse seq ooo-basic-uno-constants)))))
+      (ooo-basic-traverse seq forest)))))
+
+(defun ooo-basic-uno-name-completion (str)
+  (ooo-basic-uno-completion-function
+   str
+   (append ooo-basic-uno-modules ooo-basic-uno-constants)))
+
+(defun ooo-basic-uno-constant-name-completion (str)
+  (ooo-basic-uno-completion-function
+   str
+   ooo-basic-uno-constants))
 
 (defun ooo-basic-insert-uno-constant ()
   "Insert a constant in UNO."
@@ -3929,7 +3939,7 @@ nil otherwise."
   (insert
    (completing-read
     "Constant: "
-    (dynamic-completion-table ooo-basic-uno-constant-completion))))
+    (dynamic-completion-table ooo-basic-uno-constant-name-completion))))
 
 (defun ooo-basic-uno-module-name-p (name)
   "Return non-nil if there exists a UNO module which has the given name,
@@ -3956,6 +3966,13 @@ nil otherwise."
 nil otherwise."
   (ooo-basic-uno-name-of-path name ooo-basic-uno-constants))
 
+(defun ooo-basic-uno-name-p (name)
+  "Return non-nil if there exists a UNO module, constant group, or constant
+which has the given name, nil otherwise."
+  (or (ooo-basic-uno-module-name-p name)
+      (ooo-basic-uno-constant-group-name-p name)
+      (ooo-basic-uno-constant-name-p name)))
+
 (defun ooo-basic-idl-reference-url (name)
   "Return the URL of the IDL reference of a given name."
   (let ((slashed (replace-regexp-in-string "\\." "/" name)))
@@ -3971,10 +3988,22 @@ nil otherwise."
                     ".html#"
                     (last seq)))))))
 
-(defun ooo-basic-browse-idl-reference (name)
+(defun ooo-basic-browse-idl-reference ()
   "Browse the IDL reference on a given topic."
-  (interactive "sName: ")
-  (let ((url (ooo-basic-idl-reference-url name)))
+  (interactive)
+  (let* ((word (current-word))
+         (default (if (ooo-basic-uno-name-p word) word nil))
+         (name (completing-read
+                (if default
+                    (concat "Name (default " default "): ")
+                  "Name: ")
+                (dynamic-completion-table ooo-basic-uno-name-completion)
+                nil
+                t
+                nil
+                nil
+                default))
+         (url (ooo-basic-idl-reference-url name)))
     (if url
         (browse-url url)
       (message "name '%s' is not a UNO one." name))))

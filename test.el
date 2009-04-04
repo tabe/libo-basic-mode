@@ -36,6 +36,15 @@
 (assert (ooo-basic-uno-constant-name-p "com.sun.star.accessibility.AccessibleEventId.NAME_CHANGED"))
 (assert (ooo-basic-uno-constant-name-p "com.sun.star.xsd.WhiteSpaceTreatment.Collapse"))
 
+(assert (not (ooo-basic-uno-name-p "")))
+(assert (ooo-basic-uno-name-p "com.sun.star"))
+(assert (ooo-basic-uno-name-p "com.sun.star.packages.zip"))
+(assert (ooo-basic-uno-name-p "com.sun.star.accessibility.AccessibleEventId"))
+(assert (ooo-basic-uno-name-p "com.sun.star.awt.Command"))
+(assert (ooo-basic-uno-name-p "com.sun.star.xml.sax.FastToken"))
+(assert (ooo-basic-uno-name-p "com.sun.star.accessibility.AccessibleEventId.NAME_CHANGED"))
+(assert (ooo-basic-uno-name-p "com.sun.star.xsd.WhiteSpaceTreatment.Collapse"))
+
 (assert (string= "http://api.openoffice.org/docs/common/ref/com/sun/star/module-ix.html"
                  (ooo-basic-idl-reference-url "com.sun.star")))
 (assert (string= "http://api.openoffice.org/docs/common/ref/com/sun/star/accessibility/AccessibleEventId.html"

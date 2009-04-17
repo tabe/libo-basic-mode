@@ -175,7 +175,7 @@ nil otherwise."
   "Regexp to detect the start of a definition.")
 
 (defvar ooo-basic-definition-end-re
-  "^[ \t]*End\\>"
+  "^[ \t]*End[ \t]+\\(Sub\\|Function\\|Type\\)\\>"
   "Regexp to detect the end of a definition.")
 
 (defvar ooo-basic-font-lock-keywords-1
@@ -183,10 +183,7 @@ nil otherwise."
      (1 font-lock-keyword-face)
      ("\\<\\([A-z_][A-z_0-9]*\\)\\>.*$" nil nil (1 font-lock-function-name-face))
      )
-    (,ooo-basic-definition-end-re
-     (0 font-lock-keyword-face)
-     ("\\<\\(Sub\\|Function\\|Type\\)\\>" nil nil (1 font-lock-keyword-face))
-     )
+    ,ooo-basic-definition-end-re
     ("\\<Exit\\>"
      (0 font-lock-keyword-face)
      ("\\<\\(Sub\\|Function\\)\\>" nil nil (1 font-lock-keyword-face))
@@ -4008,6 +4005,16 @@ which has the given name, nil otherwise."
         (browse-url url)
       (message "name '%s' is not a UNO one." name))))
 
+(defun ooo-basic-beginning-of-defun ()
+  "Go back to the beginning of the definition in question."
+  (interactive)
+  (re-search-backward ooo-basic-definition-start-re nil nil))
+
+(defun ooo-basic-end-of-defun ()
+  "Go forth to the end of the definition in question."
+  (interactive)
+  (re-search-forward ooo-basic-definition-end-re nil nil))
+
 (defun ooo-basic-indentation (parse-status)
   "Return the proper indentation for the current line."
   (save-excursion
@@ -4051,6 +4058,10 @@ Key bindings:
   (set (make-local-variable 'comment-start) "'")
   (set (make-local-variable 'comment-end) "")
   (set (make-local-variable 'indent-line-function) 'ooo-basic-indent-line)
+  (set (make-local-variable 'beginning-of-defun-function)
+       'ooo-basic-beginning-of-defun)
+  (set (make-local-variable 'end-of-defun-function)
+       'ooo-basic-end-of-defun)
   (set (make-local-variable 'parse-sexp-ignore-comments) t)
   (set (make-local-variable 'font-lock-defaults)
        '((ooo-basic-font-lock-keywords-1

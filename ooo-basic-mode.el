@@ -171,7 +171,7 @@ nil otherwise."
   "Builtin functions available in OpenOffice.org Basic.")
 
 (defvar ooo-basic-definition-start-re
-  "^[ \t]*\\(?:Public\\|Private\\)?[ \t]*\\(Sub\\|Function\\|Type\\)\\>"
+  "^[ \t]*\\(?:P\\(?:ublic\\|rivate\\)[ \t]+\\)?\\(Sub\\|Function\\|Type\\)\\>"
   "Regexp to detect the start of a definition.")
 
 (defvar ooo-basic-definition-end-re

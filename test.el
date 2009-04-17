@@ -18,6 +18,16 @@
 (assert (eq nil (ooo-basic-uno-name-to-list "")))
 (assert (equal '(com sun star) (ooo-basic-uno-name-to-list "com.sun.star")))
 
+(assert (string-match ooo-basic-definition-start-re "Public Sub main()"))
+(assert (string-match ooo-basic-definition-start-re "\tFunction foo()"))
+(assert (string-match ooo-basic-definition-start-re "\t Private \tFunction bar"))
+(assert (not (string-match ooo-basic-definition-start-re "\t privatesub foo()")))
+(assert (not (string-match ooo-basic-definition-start-re "\t public bar()")))
+
+(assert (not (string-match ooo-basic-definition-end-re "End")))
+(assert (string-match ooo-basic-definition-end-re "End Function"))
+(assert (string-match ooo-basic-definition-end-re "\tEnd  \t Sub"))
+
 (assert (not (ooo-basic-uno-module-name-p "")))
 (assert (ooo-basic-uno-module-name-p "com.sun.star"))
 (assert (ooo-basic-uno-module-name-p "com.sun.star.packages.zip"))

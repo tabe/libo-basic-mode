@@ -4008,12 +4008,12 @@ which has the given name, nil otherwise."
 (defun ooo-basic-beginning-of-defun ()
   "Go back to the beginning of the definition in question."
   (interactive)
-  (re-search-backward ooo-basic-definition-start-re nil nil))
+  (re-search-backward ooo-basic-definition-start-re nil t))
 
 (defun ooo-basic-end-of-defun ()
   "Go forth to the end of the definition in question."
   (interactive)
-  (re-search-forward ooo-basic-definition-end-re nil nil))
+  (re-search-forward ooo-basic-definition-end-re nil t))
 
 (defun ooo-basic-indentation (parse-status)
   "Return the proper indentation for the current line."

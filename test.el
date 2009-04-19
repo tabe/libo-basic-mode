@@ -18,6 +18,8 @@
 (assert (eq nil (ooo-basic-uno-name-to-list "")))
 (assert (equal '(com sun star) (ooo-basic-uno-name-to-list "com.sun.star")))
 
+;;; Regexps
+
 (assert (string-match ooo-basic-definition-start-re "Public Sub main()"))
 (assert (string-match ooo-basic-definition-start-re "\tFunction foo()"))
 (assert (string-match ooo-basic-definition-start-re "\t Private \tFunction bar"))
@@ -27,6 +29,11 @@
 (assert (not (string-match ooo-basic-definition-end-re "End")))
 (assert (string-match ooo-basic-definition-end-re "End Function"))
 (assert (string-match ooo-basic-definition-end-re "\tEnd  \t Sub"))
+
+(assert (string-match ooo-basic-label-re "foo:"))
+(assert (string-match ooo-basic-label-re "\tf_o:  "))
+(assert (string-match ooo-basic-label-re "\t100:  "))
+(assert (not (string-match ooo-basic-label-re "\t10 ")))
 
 (assert (not (ooo-basic-uno-module-name-p "")))
 (assert (ooo-basic-uno-module-name-p "com.sun.star"))

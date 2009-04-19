@@ -57,6 +57,11 @@ nil otherwise."
   :type 'integer
   :group 'ooo-basic)
 
+(defcustom ooo-basic-absolute-indent-level-for-label 1
+  "Absolute number of spaces for the indentation of a label."
+  :type 'integer
+  :group 'ooo-basic)
+
 (defvar ooo-basic-mode-map nil
   "Keymap used in ooo-basic-mode.")
 
@@ -177,6 +182,10 @@ nil otherwise."
 (defvar ooo-basic-definition-end-re
   "^[ \t]*End[ \t]+\\(Sub\\|Function\\|Type\\)\\>"
   "Regexp to detect the end of a definition.")
+
+(defvar ooo-basic-label-re
+  "^[ \t]*[a-zA-Z0-9_]+:"
+  "Regexp to detect a label.")
 
 (defvar ooo-basic-font-lock-keywords-1
   `((,ooo-basic-definition-start-re
@@ -4023,6 +4032,8 @@ which has the given name, nil otherwise."
     (cond ((looking-at "[ \t]*$") 0)
           ((looking-at ooo-basic-definition-start-re) 0)
           ((looking-at ooo-basic-definition-end-re) 0)
+          ((looking-at ooo-basic-label-re)
+           ooo-basic-absolute-indent-level-for-label)
           (t ooo-basic-indent-level))))
 
 (defun ooo-basic-indent-line ()

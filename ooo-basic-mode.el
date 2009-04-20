@@ -184,7 +184,7 @@ nil otherwise."
   "Regexp to detect the end of a definition.")
 
 (defvar ooo-basic-label-re
-  "^[ \t]*[a-zA-Z0-9_]+:"
+  "^[ \t]*\\([a-zA-Z0-9_]+\\):"
   "Regexp to detect a label.")
 
 (defvar ooo-basic-font-lock-keywords-1
@@ -193,6 +193,9 @@ nil otherwise."
      ("\\<\\([A-z_][A-z_0-9]*\\)\\>.*$" nil nil (1 font-lock-function-name-face))
      )
     ,ooo-basic-definition-end-re
+    (,ooo-basic-label-re
+     (1 font-lock-constant-face)
+     )
     ("\\<Exit\\>"
      (0 font-lock-keyword-face)
      ("\\<\\(Sub\\|Function\\)\\>" nil nil (1 font-lock-keyword-face))

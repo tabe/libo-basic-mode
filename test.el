@@ -20,6 +20,19 @@
 
 ;;; Regexps
 
+(assert (string-match ooo-basic-blank-re ""))
+(assert (string-match ooo-basic-blank-re "  \t"))
+(assert (not (string-match ooo-basic-blank-re "a")))
+
+(assert (string-match ooo-basic-comment-re "' comment"))
+(assert (string-match ooo-basic-comment-re "  Rem comment"))
+(assert (string-match ooo-basic-comment-re "\t '"))
+(assert (not (string-match ooo-basic-comment-re "Remember me")))
+(assert (not (string-match ooo-basic-comment-re "    ")))
+
+(assert (string-match ooo-basic-continuation-re " foobar _ "))
+(assert (not (string-match ooo-basic-continuation-re " _ \\")))
+
 (assert (string-match ooo-basic-definition-start-re "Public Sub main()"))
 (assert (string-match ooo-basic-definition-start-re "\tFunction foo()"))
 (assert (string-match ooo-basic-definition-start-re "\t Private \tFunction bar"))
@@ -34,6 +47,20 @@
 (assert (string-match ooo-basic-label-re "\tf_o:  "))
 (assert (string-match ooo-basic-label-re "\t100:  "))
 (assert (not (string-match ooo-basic-label-re "\t10 ")))
+
+(assert (string-match ooo-basic-if-re "If"))
+(assert (string-match ooo-basic-if-re " \tif "))
+(assert (not (string-match ooo-basic-if-re " iff")))
+
+(assert (string-match ooo-basic-else-re " else foo"))
+(assert (string-match ooo-basic-else-re " elseif bar"))
+(assert (not (string-match ooo-basic-else-re "elsef")))
+
+(assert (string-match ooo-basic-endif-re "EndIf"))
+(assert (string-match ooo-basic-endif-re "\tend if"))
+(assert (not (string-match ooo-basic-endif-re "if end")))
+
+;;; Predicates
 
 (assert (not (ooo-basic-uno-module-name-p "")))
 (assert (ooo-basic-uno-module-name-p "com.sun.star"))

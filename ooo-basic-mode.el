@@ -175,6 +175,18 @@ nil otherwise."
     )
   "Builtin functions available in OpenOffice.org Basic.")
 
+(defvar ooo-basic-blank-re
+  "^[ \t]*$"
+  "Regexp to detect a blank line.")
+
+(defvar ooo-basic-comment-re
+  "^[ \t]*\\(?:'\\|Rem\\>\\)"
+  "Regexp to detect a line for comment only.")
+
+(defvar ooo-basic-continuation-re
+  "^.*_[ \t]*$"
+  "Regexp to detect a line continuing its next one.")
+
 (defvar ooo-basic-definition-start-re
   "^[ \t]*\\(?:P\\(?:ublic\\|rivate\\)[ \t]+\\)?\\(Sub\\|Function\\|Type\\)\\>"
   "Regexp to detect the start of a definition.")
@@ -186,6 +198,18 @@ nil otherwise."
 (defvar ooo-basic-label-re
   "^[ \t]*\\([a-zA-Z0-9_]+\\):"
   "Regexp to detect a label.")
+
+(defvar ooo-basic-if-re
+  "^[ \t]*If\\>"
+  "Regexp to detect an if line")
+
+(defvar ooo-basic-else-re
+  "^[ \t]*Else\\(?:If\\)?\\>"
+  "Regexp to detect an else line.")
+
+(defvar ooo-basic-endif-re
+  "^[ \t]*End[ \t]*If\\>"
+  "Regexp to detect an endif line.")
 
 (defvar ooo-basic-font-lock-keywords-1
   `((,ooo-basic-definition-start-re
@@ -4027,16 +4051,56 @@ which has the given name, nil otherwise."
   (interactive)
   (re-search-forward ooo-basic-definition-end-re nil t))
 
+(defun ooo-basic-previous-line-of-code ()
+  "Move backword to reach a code line."
+  (forward-line -1)
+  (while (and (not (bobp))
+              (or (looking-at ooo-basic-blank-re)
+                  (looking-at ooo-basic-comment-re)))
+    (forward-line -1)))
+
+(defun ooo-basic-find-original-statement ()
+  "Find a original line which starts as a logical one."
+  (let ((here (point)))
+    (ooo-basic-previous-line-of-code)
+    (while (and (not (bobp))
+                (looking-at ooo-basic-continuation-re))
+      (setq here (point))
+      (ooo-basic-previous-line-of-code))
+    (goto-char here)))
+
+(defun %ooo-basic-find-matching-statement (open-p close-p)
+  (let ((level 0))
+    (while (and (>= level 0) (not (bobp)))
+      (ooo-basic-previous-line-of-code)
+      (ooo-basic-find-original-statement)
+      (cond ((funcall close-p)
+             (setq level (+ level 1)))
+            ((funcall open-p)
+             (setq level (- level 1)))))))
+
+(defun ooo-basic-find-matching-statement (open-re close-re)
+  (%ooo-basic-find-matching-statement
+   (lambda () (looking-at open-re))
+   (lambda () (looking-at close-re))))
+
+(defun ooo-basic-find-matching-if ()
+  "Move backword to find the matching if."
+  (ooo-basic-find-matching-statement ooo-basic-if-re ooo-basic-endif-re))
+
 (defun ooo-basic-indentation (parse-status)
   "Return the proper indentation for the current line."
   (save-excursion
-;    (back-to-indentation)
     (beginning-of-line)
     (cond ((looking-at "[ \t]*$") 0)
           ((looking-at ooo-basic-definition-start-re) 0)
           ((looking-at ooo-basic-definition-end-re) 0)
           ((looking-at ooo-basic-label-re)
            ooo-basic-absolute-indent-level-for-label)
+          ((or (looking-at ooo-basic-else-re)
+               (looking-at ooo-basic-endif-re))
+           (ooo-basic-find-matching-if)
+           (current-indentation))
           (t ooo-basic-indent-level))))
 
 (defun ooo-basic-indent-line ()

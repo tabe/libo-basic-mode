@@ -4081,8 +4081,8 @@ which has the given name, nil otherwise."
 
 (defun ooo-basic-find-matching-statement (open-re close-re)
   (%ooo-basic-find-matching-statement
-   (lambda () (looking-at open-re))
-   (lambda () (looking-at close-re))))
+   #'(lambda () (looking-at open-re))
+   #'(lambda () (looking-at close-re))))
 
 (defun ooo-basic-find-matching-if ()
   "Move backword to find the matching if."

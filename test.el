@@ -60,6 +60,14 @@
 (assert (string-match ooo-basic-endif-re "\tend if"))
 (assert (not (string-match ooo-basic-endif-re "if end")))
 
+(assert (string-match ooo-basic-for-re "For\t"))
+(assert (string-match ooo-basic-for-re "\t For"))
+(assert (not (string-match ooo-basic-for-re "ForEach ")))
+
+(assert (string-match ooo-basic-next-re "Next"))
+(assert (string-match ooo-basic-next-re " \tNext x"))
+(assert (not (string-match ooo-basic-next-re " \tnextone")))
+
 ;;; Predicates
 
 (assert (not (ooo-basic-uno-module-name-p "")))

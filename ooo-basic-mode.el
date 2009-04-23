@@ -211,6 +211,14 @@ nil otherwise."
   "^[ \t]*End[ \t]*If\\>"
   "Regexp to detect an endif line.")
 
+(defvar ooo-basic-for-re
+  "^[ \t]*For\\>"
+  "Regexp to detect a for clause.")
+
+(defvar ooo-basic-next-re
+  "^[ \t]*Next\\>"
+  "Regexp to detect a next line.")
+
 (defvar ooo-basic-font-lock-keywords-1
   `((,ooo-basic-definition-start-re
      (1 font-lock-keyword-face)
@@ -4052,7 +4060,7 @@ which has the given name, nil otherwise."
   (re-search-forward ooo-basic-definition-end-re nil t))
 
 (defun ooo-basic-previous-line-of-code ()
-  "Move backword to reach a code line."
+  "Move backward to reach a code line."
   (forward-line -1)
   (while (and (not (bobp))
               (or (looking-at ooo-basic-blank-re)
@@ -4085,8 +4093,12 @@ which has the given name, nil otherwise."
    #'(lambda () (looking-at close-re))))
 
 (defun ooo-basic-find-matching-if ()
-  "Move backword to find the matching if."
+  "Move backward to find the matching if."
   (ooo-basic-find-matching-statement ooo-basic-if-re ooo-basic-endif-re))
+
+(defun ooo-basic-find-matching-for ()
+  "Move backward to find the matching for."
+  (ooo-basic-find-matching-statement ooo-basic-for-re ooo-basic-next-re))
 
 (defun ooo-basic-indentation (parse-status)
   "Return the proper indentation for the current line."
@@ -4100,6 +4112,9 @@ which has the given name, nil otherwise."
           ((or (looking-at ooo-basic-else-re)
                (looking-at ooo-basic-endif-re))
            (ooo-basic-find-matching-if)
+           (current-indentation))
+          ((looking-at ooo-basic-next-re)
+           (ooo-basic-find-matching-for)
            (current-indentation))
           (t ooo-basic-indent-level))))
 

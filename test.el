@@ -60,6 +60,14 @@
 (assert (string-match ooo-basic-endif-re "\tend if"))
 (assert (not (string-match ooo-basic-endif-re "if end")))
 
+(assert (string-match ooo-basic-do-re "do"))
+(assert (string-match ooo-basic-do-re "\tDo While"))
+(assert (not (string-match ooo-basic-do-re "don't")))
+
+(assert (string-match ooo-basic-loop-re "loop"))
+(assert (string-match ooo-basic-loop-re "\tLoop Until"))
+(assert (not (string-match ooo-basic-loop-re "loopy")))
+
 (assert (string-match ooo-basic-for-re "For\t"))
 (assert (string-match ooo-basic-for-re "\t For"))
 (assert (not (string-match ooo-basic-for-re "ForEach ")))

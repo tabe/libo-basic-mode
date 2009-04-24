@@ -219,6 +219,14 @@ nil otherwise."
   "^[ \t]*Next\\>"
   "Regexp to detect a next line.")
 
+(defvar ooo-basic-do-re
+  "^[ \t]*Do\\>"
+  "Regexp to detect a do line.")
+
+(defvar ooo-basic-loop-re
+  "^[ \t]*Loop\\>"
+  "Regexp to detect a loop line.")
+
 (defvar ooo-basic-font-lock-keywords-1
   `((,ooo-basic-definition-start-re
      (1 font-lock-keyword-face)
@@ -4096,6 +4104,10 @@ which has the given name, nil otherwise."
   "Move backward to find the matching if."
   (ooo-basic-find-matching-statement ooo-basic-if-re ooo-basic-endif-re))
 
+(defun ooo-basic-find-matching-do ()
+  "Move backward to find the mathing do."
+  (ooo-basic-find-matching-statement ooo-basic-do-re ooo-basic-loop-re))
+
 (defun ooo-basic-find-matching-for ()
   "Move backward to find the matching for."
   (ooo-basic-find-matching-statement ooo-basic-for-re ooo-basic-next-re))
@@ -4112,6 +4124,9 @@ which has the given name, nil otherwise."
           ((or (looking-at ooo-basic-else-re)
                (looking-at ooo-basic-endif-re))
            (ooo-basic-find-matching-if)
+           (current-indentation))
+          ((looking-at ooo-basic-loop-re)
+           (ooo-basic-find-matching-do)
            (current-indentation))
           ((looking-at ooo-basic-next-re)
            (ooo-basic-find-matching-for)

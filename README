@@ -3,3 +3,7 @@ ooo-basic-mode -- A major mode for editing OpenOffice.org Basic programs
 == License
 
 GPLv3
+
+== Acknowledgements
+
+This program owes a lot to authors of visual-basic-mode.el.

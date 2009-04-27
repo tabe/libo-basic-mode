@@ -240,6 +240,14 @@ nil otherwise."
   "^[ \t]*Loop\\>"
   "Regexp to detect a loop line.")
 
+(defvar ooo-basic-while-re
+  "^[ \t]*While\\>"
+  "Regexp to detect a while clause.")
+
+(defvar ooo-basic-wend-re
+  "^[ \t]*Wend\\>"
+  "Regexp to detect a wend line.")
+
 (defvar ooo-basic-font-lock-keywords-1
   `((,ooo-basic-definition-start-re
      (1 font-lock-keyword-face)
@@ -4129,6 +4137,10 @@ which has the given name, nil otherwise."
   "Move backward to find the matching for."
   (ooo-basic-find-matching-statement ooo-basic-for-re ooo-basic-next-re))
 
+(defun ooo-basic-find-matching-while ()
+  "Move backward to find the matching while."
+  (ooo-basic-find-matching-statement ooo-basic-while-re ooo-basic-wend-re))
+
 (defun ooo-basic-indentation (parse-status)
   "Return the proper indentation for the current line."
   (save-excursion
@@ -4147,6 +4159,9 @@ which has the given name, nil otherwise."
            (current-indentation))
           ((looking-at ooo-basic-next-re)
            (ooo-basic-find-matching-for)
+           (current-indentation))
+          ((looking-at ooo-basic-wend-re)
+           (ooo-basic-find-matching-while)
            (current-indentation))
           (t ooo-basic-indent-level))))
 

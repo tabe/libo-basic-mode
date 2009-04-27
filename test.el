@@ -76,6 +76,14 @@
 (assert (string-match ooo-basic-next-re " \tNext x"))
 (assert (not (string-match ooo-basic-next-re " \tnextone")))
 
+(assert (string-match ooo-basic-while-re "While\t"))
+(assert (string-match ooo-basic-while-re "\t While x = 0"))
+(assert (not (string-match ooo-basic-while-re "Whilex = 0")))
+
+(assert (string-match ooo-basic-wend-re "Wend"))
+(assert (string-match ooo-basic-wend-re " \tWend "))
+(assert (not (string-match ooo-basic-wend-re " \tw end")))
+
 ;;; Predicates
 
 (assert (not (ooo-basic-uno-module-name-p "")))

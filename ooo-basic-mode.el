@@ -261,6 +261,10 @@ nil otherwise."
      (0 font-lock-keyword-face)
      ("\\<\\(Sub\\|Function\\)\\>" nil nil (1 font-lock-keyword-face))
      )
+    ("\\<\\(Do\\|Loop\\)[ \t]+\\(Until\\)\\>"
+     (1 font-lock-keyword-face)
+     (2 font-lock-keyword-face)
+     )
     ("\\<For[ \t]+\\(Each\\)\\>"
      (1 font-lock-keyword-face)
      ("\\<In\\>" nil nil (0 font-lock-keyword-face))

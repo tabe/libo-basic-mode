@@ -84,6 +84,15 @@
 (assert (string-match ooo-basic-wend-re " \tWend "))
 (assert (not (string-match ooo-basic-wend-re " \tw end")))
 
+(assert (string-match ooo-basic-with-re "With"))
+(assert (string-match ooo-basic-with-re " \tWith "))
+(assert (not (string-match ooo-basic-with-re " \twithin")))
+
+(assert (string-match ooo-basic-endwith-re "End With"))
+(assert (string-match ooo-basic-endwith-re " \tEnd With "))
+(assert (not (string-match ooo-basic-endwith-re "endwith")))
+(assert (not (string-match ooo-basic-endwith-re " \tend if")))
+
 ;;; Predicates
 
 (assert (not (ooo-basic-uno-module-name-p "")))

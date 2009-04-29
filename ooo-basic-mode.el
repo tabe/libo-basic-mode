@@ -248,6 +248,14 @@ nil otherwise."
   "^[ \t]*Wend\\>"
   "Regexp to detect a wend line.")
 
+(defvar ooo-basic-with-re
+  "^[ \t]*With\\>"
+  "Regexp to detect a with clause.")
+
+(defvar ooo-basic-endwith-re
+  "^[ \t]*End[ \t]+With\\>"
+  "Regexp to detect the end of a with statement.")
+
 (defvar ooo-basic-font-lock-keywords-1
   `((,ooo-basic-definition-start-re
      (1 font-lock-keyword-face)
@@ -4145,6 +4153,10 @@ which has the given name, nil otherwise."
   "Move backward to find the matching while."
   (ooo-basic-find-matching-statement ooo-basic-while-re ooo-basic-wend-re))
 
+(defun ooo-basic-find-matching-with ()
+  "Move backward to find the matching with."
+  (ooo-basic-find-matching-statement ooo-basic-with-re ooo-basic-endwith-re))
+
 (defun ooo-basic-indentation (parse-status)
   "Return the proper indentation for the current line."
   (save-excursion
@@ -4166,6 +4178,9 @@ which has the given name, nil otherwise."
            (current-indentation))
           ((looking-at ooo-basic-wend-re)
            (ooo-basic-find-matching-while)
+           (current-indentation))
+          ((looking-at ooo-basic-endwith-re)
+           (ooo-basic-find-matching-with)
            (current-indentation))
           (t ooo-basic-indent-level))))
 

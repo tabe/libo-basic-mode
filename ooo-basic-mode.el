@@ -224,6 +224,14 @@ nil otherwise."
   "^[ \t]*End[ \t]*If\\>"
   "Regexp to detect an endif line.")
 
+(defvar ooo-basic-select-re
+  "^[ \t]*Select[ \t]+Case\\>"
+  "Regexp to detect an select line.")
+
+(defvar ooo-basic-end-select-re
+  "^[ \t]*End[ \t]+Select\\>"
+  "Regexp to detect the end of select statement.")
+
 (defvar ooo-basic-for-re
   "^[ \t]*For\\>"
   "Regexp to detect a for clause.")
@@ -4141,6 +4149,10 @@ which has the given name, nil otherwise."
   "Move backward to find the matching if."
   (ooo-basic-find-matching-statement ooo-basic-if-re ooo-basic-endif-re))
 
+(defun ooo-basic-find-matching-select ()
+  "Move backward to find the matching select."
+  (ooo-basic-find-matching-statement ooo-basic-select-re ooo-basic-end-select-re))
+
 (defun ooo-basic-find-matching-do ()
   "Move backward to find the mathing do."
   (ooo-basic-find-matching-statement ooo-basic-do-re ooo-basic-loop-re))
@@ -4169,6 +4181,9 @@ which has the given name, nil otherwise."
           ((or (looking-at ooo-basic-else-re)
                (looking-at ooo-basic-endif-re))
            (ooo-basic-find-matching-if)
+           (current-indentation))
+          ((looking-at ooo-basic-end-select-re)
+           (ooo-basic-find-matching-select)
            (current-indentation))
           ((looking-at ooo-basic-loop-re)
            (ooo-basic-find-matching-do)

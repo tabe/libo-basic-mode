@@ -3715,7 +3715,7 @@ nil otherwise."
          (DOCUMENT)                     ; 2
          (DOCUMENT_SHARE_DENY_NONE)     ; 4
          (DOCUMENT_SHARE_DENY_WRITE)    ; 5
-         ;;	(DOCUMENT_SHARE_DENY_READ)  ; 6
+         ;; (DOCUMENT_SHARE_DENY_READ)  ; 6
          )
         (RuleAction
          (NONE)                         ; 0

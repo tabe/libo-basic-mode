@@ -224,6 +224,10 @@ nil otherwise."
   "^[ \t]*End[ \t]*If\\>"
   "Regexp to detect an endif line.")
 
+(defvar ooo-basic-case-re
+  "^[ \t]*Case\\>"
+  "Regexp to detect a case clause.")
+
 (defvar ooo-basic-select-re
   "^[ \t]*Select[ \t]+Case\\>"
   "Regexp to detect an select line.")
@@ -4185,6 +4189,9 @@ which has the given name, nil otherwise."
           ((looking-at ooo-basic-end-select-re)
            (ooo-basic-find-matching-select)
            (current-indentation))
+          ((looking-at ooo-basic-case-re)
+           (ooo-basic-find-matching-select)
+           (+ (current-indentation) ooo-basic-indent-level))
           ((looking-at ooo-basic-loop-re)
            (ooo-basic-find-matching-do)
            (current-indentation))

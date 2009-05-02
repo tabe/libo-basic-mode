@@ -60,6 +60,10 @@
 (assert (string-match ooo-basic-endif-re "\tend if"))
 (assert (not (string-match ooo-basic-endif-re "if end")))
 
+(assert (string-match ooo-basic-case-re "Case"))
+(assert (string-match ooo-basic-case-re "\t Case "))
+(assert (not (string-match ooo-basic-case-re "Select Case")))
+
 (assert (string-match ooo-basic-select-re "Select Case"))
 (assert (string-match ooo-basic-select-re "\t Select\tCase "))
 (assert (not (string-match ooo-basic-select-re "select")))

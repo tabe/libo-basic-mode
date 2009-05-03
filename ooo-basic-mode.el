@@ -4125,7 +4125,7 @@ which has the given name, nil otherwise."
     (forward-line -1)))
 
 (defun ooo-basic-find-original-statement ()
-  "Find a original line which starts as a logical one."
+  "Find an original line which starts as a logical one."
   (let ((here (point)))
     (ooo-basic-previous-line-of-code)
     (while (and (not (bobp))

@@ -264,7 +264,7 @@ nil otherwise."
   "^[ \t]*With\\>"
   "Regexp to detect a with clause.")
 
-(defvar ooo-basic-endwith-re
+(defvar ooo-basic-end-with-re
   "^[ \t]*End[ \t]+With\\>"
   "Regexp to detect the end of a with statement.")
 
@@ -4171,7 +4171,7 @@ which has the given name, nil otherwise."
 
 (defun ooo-basic-find-matching-with ()
   "Move backward to find the matching with."
-  (ooo-basic-find-matching-statement ooo-basic-with-re ooo-basic-endwith-re))
+  (ooo-basic-find-matching-statement ooo-basic-with-re ooo-basic-end-with-re))
 
 (defun ooo-basic-indentation (parse-status)
   "Return the proper indentation for the current line."
@@ -4201,7 +4201,7 @@ which has the given name, nil otherwise."
           ((looking-at ooo-basic-wend-re)
            (ooo-basic-find-matching-while)
            (current-indentation))
-          ((looking-at ooo-basic-endwith-re)
+          ((looking-at ooo-basic-end-with-re)
            (ooo-basic-find-matching-with)
            (current-indentation))
           (t ooo-basic-indent-level))))

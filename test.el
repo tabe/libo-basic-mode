@@ -101,10 +101,10 @@
 (assert (string-match ooo-basic-with-re " \tWith "))
 (assert (not (string-match ooo-basic-with-re " \twithin")))
 
-(assert (string-match ooo-basic-endwith-re "End With"))
-(assert (string-match ooo-basic-endwith-re " \tEnd With "))
-(assert (not (string-match ooo-basic-endwith-re "endwith")))
-(assert (not (string-match ooo-basic-endwith-re " \tend if")))
+(assert (string-match ooo-basic-end-with-re "End With"))
+(assert (string-match ooo-basic-end-with-re " \tEnd With "))
+(assert (not (string-match ooo-basic-end-with-re "endwith")))
+(assert (not (string-match ooo-basic-end-with-re " \tend if")))
 
 ;;; Predicates
 

@@ -209,7 +209,7 @@ nil otherwise."
   "Regexp to detect the end of a definition.")
 
 (defvar ooo-basic-label-re
-  "^[ \t]*\\([a-zA-Z0-9_]+\\):"
+  "^[ \t]*\\([a-zA-Z0-9_]+\\):\\(?:$\\|[^=]\\)"
   "Regexp to detect a label.")
 
 (defvar ooo-basic-if-re

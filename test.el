@@ -47,6 +47,7 @@
 (assert (string-match ooo-basic-label-re "\tf_o:  "))
 (assert (string-match ooo-basic-label-re "\t100:  "))
 (assert (not (string-match ooo-basic-label-re "\t10 ")))
+(assert (not (string-match ooo-basic-label-re "keyword:=")))
 
 (assert (string-match ooo-basic-if-re "If"))
 (assert (string-match ooo-basic-if-re " \tif "))

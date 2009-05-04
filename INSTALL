@@ -1,0 +1,4 @@
+Put ooo-basic-mode.el somewhere in your path, compile it, and
+add the following to your .emacs:
+(autoload 'ooo-basic-mode "ooo-basic-mode" "A major mode for OpenOffice.org Basic." t)
+(push '("\\.bas\\'" . ooo-basic-mode) auto-mode-alist)

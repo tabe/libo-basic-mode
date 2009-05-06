@@ -12,4 +12,7 @@ Sub Main
         MsgBox h & ", " & _
               w & "."
     End If
+    #If False Then
+        ' another comments
+    #End If
 End Sub

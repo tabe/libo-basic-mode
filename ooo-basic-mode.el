@@ -213,59 +213,59 @@ nil otherwise."
   "Regexp to detect a label.")
 
 (defvar ooo-basic-if-re
-  "^[ \t]*If\\>"
+  "^[ \t]*#?If\\>"
   "Regexp to detect an if line")
 
 (defvar ooo-basic-else-re
-  "^[ \t]*Else\\(?:If\\)?\\>"
+  "^[ \t]*#?Else\\(?:If\\)?\\>"
   "Regexp to detect an else line.")
 
 (defvar ooo-basic-endif-re
-  "^[ \t]*End[ \t]*If\\>"
+  "^[ \t]*#?End[ \t]*If\\>"
   "Regexp to detect an endif line.")
 
 (defvar ooo-basic-case-re
-  "^[ \t]*Case\\>"
+  "^[ \t]*#?Case\\>"
   "Regexp to detect a case clause.")
 
 (defvar ooo-basic-select-re
-  "^[ \t]*Select[ \t]+Case\\>"
+  "^[ \t]*#?Select[ \t]+Case\\>"
   "Regexp to detect an select line.")
 
 (defvar ooo-basic-end-select-re
-  "^[ \t]*End[ \t]+Select\\>"
+  "^[ \t]*#?End[ \t]+Select\\>"
   "Regexp to detect the end of select statement.")
 
 (defvar ooo-basic-for-re
-  "^[ \t]*For\\>"
+  "^[ \t]*#?For\\>"
   "Regexp to detect a for clause.")
 
 (defvar ooo-basic-next-re
-  "^[ \t]*Next\\>"
+  "^[ \t]*#?Next\\>"
   "Regexp to detect a next line.")
 
 (defvar ooo-basic-do-re
-  "^[ \t]*Do\\>"
+  "^[ \t]*#?Do\\>"
   "Regexp to detect a do line.")
 
 (defvar ooo-basic-loop-re
-  "^[ \t]*Loop\\>"
+  "^[ \t]*#?Loop\\>"
   "Regexp to detect a loop line.")
 
 (defvar ooo-basic-while-re
-  "^[ \t]*While\\>"
+  "^[ \t]*#?While\\>"
   "Regexp to detect a while clause.")
 
 (defvar ooo-basic-wend-re
-  "^[ \t]*Wend\\>"
+  "^[ \t]*#?Wend\\>"
   "Regexp to detect a wend line.")
 
 (defvar ooo-basic-with-re
-  "^[ \t]*With\\>"
+  "^[ \t]*#?With\\>"
   "Regexp to detect a with clause.")
 
 (defvar ooo-basic-end-with-re
-  "^[ \t]*End[ \t]+With\\>"
+  "^[ \t]*#?End[ \t]+With\\>"
   "Regexp to detect the end of a with statement.")
 
 (defvar ooo-basic-font-lock-keywords-1

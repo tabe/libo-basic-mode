@@ -9,8 +9,10 @@ Sub Main
     If h = w Then
         MsgBox "impossible"
     Else
-        MsgBox h & ", " & _
-              w & "."
+        MsgBox h & _
+               ", " & _
+               (w & _
+                ".")
     End If
     #If False Then
         ' another comments

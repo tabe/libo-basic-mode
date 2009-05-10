@@ -4173,7 +4173,7 @@ which has the given name, nil otherwise."
   "Move backward to find the matching with."
   (ooo-basic-find-matching-statement ooo-basic-with-re ooo-basic-end-with-re))
 
-(defun ooo-basic-indentation (parse-status)
+(defun ooo-basic-indentation (current-point parse-status)
   "Return the proper indentation for the current line."
   (save-excursion
     (beginning-of-line)
@@ -4210,9 +4210,27 @@ which has the given name, nil otherwise."
              (ooo-basic-previous-line-of-code))
            (cond ((looking-at ooo-basic-continuation-re)
                   (ooo-basic-find-original-statement)
-                  (back-to-indentation)
-                  (forward-word)
-                  (current-column))
+                  ;; Indent continuation line under matching open paren,
+                  ;; or else one word in.
+                  (let* ((orig (point))
+                         (matching-open-paren
+                          (condition-case ()
+                              (save-excursion
+                                (goto-char current-point)
+                                (beginning-of-line)
+                                (backward-up-list 1)
+                                ;; Only if point is now w/in cont. block.
+                                (and (<= orig (point))
+                                     (current-column)))
+                            (error nil))))
+                    (if matching-open-paren
+                        (1+ matching-open-paren)
+                      ;; Else, after first word on original line.
+                      (back-to-indentation)
+                      (forward-word)
+                      (while (looking-at "[ \t]")
+                        (forward-char))
+                      (current-column))))
                  (t
                   (ooo-basic-find-original-statement)
                   (let* ((cur (current-indentation))
@@ -4237,7 +4255,7 @@ which has the given name, nil otherwise."
                     (parse-partial-sexp (point-min) (point-at-bol)))))
         (offset (- (current-column) (current-indentation))))
     (unless (nth 8 status)
-      (indent-line-to (ooo-basic-indentation status))
+      (indent-line-to (ooo-basic-indentation (point) status))
       (when (< 0 offset) (forward-char offset)))))
 
 (defun ooo-basic-mode-version ()

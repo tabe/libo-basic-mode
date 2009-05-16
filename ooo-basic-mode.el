@@ -4149,9 +4149,54 @@ which has the given name, nil otherwise."
    #'(lambda () (looking-at open-re))
    #'(lambda () (looking-at close-re))))
 
+(defun ooo-basic-multiline-if-p ()
+  "Decide whether an if statement begins but not single line."
+  (and (looking-at ooo-basic-if-re)
+       (save-excursion
+         (beginning-of-line)
+         ;; 1st reconstruct complete line
+         (let* (complete-line
+                (start-point (point))
+                (line-beg start-point)
+                line-end)
+           (while (not line-end)
+             (end-of-line)
+             (setq line-end (point))
+             (if (search-backward "_" line-beg t)
+                 (if (looking-at  "_\\s-*$")
+                     ;; folded line
+                     (progn
+                       (push (buffer-substring-no-properties line-beg (1- (point))) complete-line)
+                       (setq line-end nil)
+                       (beginning-of-line 2)
+                       (setq line-beg (point)))
+                   ;; _ found, but not a folded line (this is a syntax error)
+                   (push (buffer-substring-no-properties line-beg line-end) complete-line))
+               ;; not a folded line
+               (push (buffer-substring-no-properties line-beg line-end) complete-line)))
+           (setq complete-line (mapconcat 'identity (nreverse complete-line) " "))
+           ;; now complete line has been reconstructed, drop confusing elements
+           (let (p1
+                 p2)
+             ;; remove any string literal from complete line,
+             ;; as strings may disrupt : and ' detection
+             (while (and (setq p1 (string-match "\"" complete-line))
+                         (setq p2 (string-match "\"" complete-line (1+ p1))))
+               (setq complete-line (concat (substring complete-line 0 p1)
+                                           (substring complete-line (1+ p2)))))
+             ;; now drop tailing comment if any
+             (when (setq p1 (string-match "'" complete-line))
+               (setq complete-line (substring complete-line 0 p1)))
+             ;; now drop 1st concatenated instruction is any
+             (when (setq p1 (string-match ":" complete-line))
+               (setq complete-line (substring complete-line 0 p1))))
+           (string-match "Then\\s-*$" complete-line)))))
+
 (defun ooo-basic-find-matching-if ()
   "Move backward to find the matching if."
-  (ooo-basic-find-matching-statement ooo-basic-if-re ooo-basic-endif-re))
+  (%ooo-basic-find-matching-statement
+   'ooo-basic-multiline-if-p
+   #'(lambda () (looking-at ooo-basic-endif-re))))
 
 (defun ooo-basic-find-matching-select ()
   "Move backward to find the matching select."
@@ -4236,7 +4281,7 @@ which has the given name, nil otherwise."
                   (let* ((cur (current-indentation))
                          (tmp (+ cur ooo-basic-indent-level)))
                     (cond ((looking-at ooo-basic-definition-start-re) tmp)
-                          ((looking-at ooo-basic-if-re) tmp)
+                          ((ooo-basic-multiline-if-p) tmp)
                           ((looking-at ooo-basic-else-re) tmp)
                           ((looking-at ooo-basic-select-re) tmp)
                           ((looking-at ooo-basic-case-re) tmp)

@@ -189,83 +189,83 @@ nil otherwise."
   "Builtin functions available in OpenOffice.org Basic.")
 
 (defvar ooo-basic-blank-re
-  "^[ \t]*$"
+  "^\\s-*$"
   "Regexp to detect a blank line.")
 
 (defvar ooo-basic-comment-re
-  "^[ \t]*\\(?:'\\|Rem\\>\\)"
+  "^\\s-*\\(?:'\\|Rem\\>\\)"
   "Regexp to detect a line for comment only.")
 
 (defvar ooo-basic-continuation-re
-  "^.*_[ \t]*$"
+  "^.*_\\s-*$"
   "Regexp to detect a line continuing its next one.")
 
 (defvar ooo-basic-definition-start-re
-  "^[ \t]*\\(?:P\\(?:ublic\\|rivate\\)[ \t]+\\)?\\(Sub\\|Function\\|Type\\)\\>"
+  "^\\s-*\\(?:P\\(?:ublic\\|rivate\\)\\s-+\\)?\\(Sub\\|Function\\|Type\\)\\>"
   "Regexp to detect the start of a definition.")
 
 (defvar ooo-basic-definition-end-re
-  "^[ \t]*End[ \t]+\\(Sub\\|Function\\|Type\\)\\>"
+  "^\\s-*End\\s-+\\(Sub\\|Function\\|Type\\)\\>"
   "Regexp to detect the end of a definition.")
 
 (defvar ooo-basic-label-re
-  "^[ \t]*\\([a-zA-Z0-9_]+\\):\\(?:$\\|[^=]\\)"
+  "^\\s-*\\([a-zA-Z0-9_]+\\):\\(?:$\\|[^=]\\)"
   "Regexp to detect a label.")
 
 (defvar ooo-basic-if-re
-  "^[ \t]*#?If\\>"
+  "^\\s-*#?If\\>"
   "Regexp to detect an if line")
 
 (defvar ooo-basic-else-re
-  "^[ \t]*#?Else\\(?:If\\)?\\>"
+  "^\\s-*#?Else\\(?:If\\)?\\>"
   "Regexp to detect an else line.")
 
 (defvar ooo-basic-endif-re
-  "^[ \t]*#?End[ \t]*If\\>"
+  "^\\s-*#?End\\s-*If\\>"
   "Regexp to detect an endif line.")
 
 (defvar ooo-basic-case-re
-  "^[ \t]*#?Case\\>"
+  "^\\s-*#?Case\\>"
   "Regexp to detect a case clause.")
 
 (defvar ooo-basic-select-re
-  "^[ \t]*#?Select[ \t]+Case\\>"
+  "^\\s-*#?Select\\s-+Case\\>"
   "Regexp to detect an select line.")
 
 (defvar ooo-basic-end-select-re
-  "^[ \t]*#?End[ \t]+Select\\>"
+  "^\\s-*#?End\\s-+Select\\>"
   "Regexp to detect the end of select statement.")
 
 (defvar ooo-basic-for-re
-  "^[ \t]*#?For\\>"
+  "^\\s-*#?For\\>"
   "Regexp to detect a for clause.")
 
 (defvar ooo-basic-next-re
-  "^[ \t]*#?Next\\>"
+  "^\\s-*#?Next\\>"
   "Regexp to detect a next line.")
 
 (defvar ooo-basic-do-re
-  "^[ \t]*#?Do\\>"
+  "^\\s-*#?Do\\>"
   "Regexp to detect a do line.")
 
 (defvar ooo-basic-loop-re
-  "^[ \t]*#?Loop\\>"
+  "^\\s-*#?Loop\\>"
   "Regexp to detect a loop line.")
 
 (defvar ooo-basic-while-re
-  "^[ \t]*#?While\\>"
+  "^\\s-*#?While\\>"
   "Regexp to detect a while clause.")
 
 (defvar ooo-basic-wend-re
-  "^[ \t]*#?Wend\\>"
+  "^\\s-*#?Wend\\>"
   "Regexp to detect a wend line.")
 
 (defvar ooo-basic-with-re
-  "^[ \t]*#?With\\>"
+  "^\\s-*#?With\\>"
   "Regexp to detect a with clause.")
 
 (defvar ooo-basic-end-with-re
-  "^[ \t]*#?End[ \t]+With\\>"
+  "^\\s-*#?End\\s-+With\\>"
   "Regexp to detect the end of a with statement.")
 
 (defvar ooo-basic-font-lock-keywords-1
@@ -281,11 +281,11 @@ nil otherwise."
      (0 font-lock-keyword-face)
      ("\\<\\(Sub\\|Function\\)\\>" nil nil (1 font-lock-keyword-face))
      )
-    ("\\<\\(Do\\|Loop\\)[ \t]+\\(Until\\)\\>"
+    ("\\<\\(Do\\|Loop\\)\\s-+\\(Until\\)\\>"
      (1 font-lock-keyword-face)
      (2 font-lock-keyword-face)
      )
-    ("\\<For[ \t]+\\(Each\\)\\>"
+    ("\\<For\\s-+\\(Each\\)\\>"
      (1 font-lock-keyword-face)
      ("\\<In\\>" nil nil (0 font-lock-keyword-face))
      )
@@ -4222,7 +4222,7 @@ which has the given name, nil otherwise."
   "Return the proper indentation for the current line."
   (save-excursion
     (beginning-of-line)
-    (cond ((looking-at "[ \t]*$") 0)
+    (cond ((looking-at "\\s-*$") 0)
           ((looking-at ooo-basic-definition-start-re) 0)
           ((looking-at ooo-basic-definition-end-re) 0)
           ((looking-at ooo-basic-label-re)
@@ -4273,7 +4273,7 @@ which has the given name, nil otherwise."
                       ;; Else, after first word on original line.
                       (back-to-indentation)
                       (forward-word)
-                      (while (looking-at "[ \t]")
+                      (while (looking-at "\\s-")
                         (forward-char))
                       (current-column))))
                  (t

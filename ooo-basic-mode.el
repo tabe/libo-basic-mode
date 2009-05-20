@@ -4303,6 +4303,29 @@ which has the given name, nil otherwise."
       (indent-line-to (ooo-basic-indentation (point) status))
       (when (< 0 offset) (forward-char offset)))))
 
+(defvar ooo-basic-definition-templates
+  '("Sub ()\nEnd Sub\n\n"
+    "Function () As Variant\nEnd Function\n\n"
+    "Type \nEnd Type\n\n")
+  "List of definition templates though which ooo-basic-new-definition cycles.")
+
+(defun ooo-basic-new-definition ()
+  "Insert template for a new definition. Repeat to cycle through alternatives."
+  (interactive)
+  (beginning-of-line)
+  (let ((templates ooo-basic-definition-templates)
+        (temp ooo-basic-blank-re)
+        (bound (point)))
+    (while temp
+      (cond ((looking-at temp)
+             (replace-match (or (car templates) ""))
+             (setq temp nil))
+            (t
+             (setq temp (car templates)
+                   templates (cdr templates)))))
+    (goto-char bound)
+    (when templates (search-forward " " nil t))))
+
 (defun ooo-basic-mode-version ()
   "Echo the current version of ooo-basic-mode in the minibuffer."
   (interactive)
@@ -4320,6 +4343,7 @@ Key bindings:
   (use-local-map ooo-basic-mode-map)
   (define-key ooo-basic-mode-map "\C-c\C-ic" 'ooo-basic-insert-uno-constant)
   (define-key ooo-basic-mode-map "\C-c\C-b" 'ooo-basic-browse-idl-reference)
+  (define-key ooo-basic-mode-map "\C-c\C-n" 'ooo-basic-new-definition)
   (set-syntax-table ooo-basic-mode-syntax-table)
   (set (make-local-variable 'comment-start) "'")
   (set (make-local-variable 'comment-end) "")

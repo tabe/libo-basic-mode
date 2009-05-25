@@ -287,6 +287,9 @@ nil otherwise."
      (1 font-lock-keyword-face)
      (2 font-lock-keyword-face)
      )
+    ("\\<For\\>.+=.+\\<To\\>.+\\<\\(Step\\)\\>"
+     (1 font-lock-keyword-face)
+     )
     ("\\<For\\s-+\\(Each\\)\\>"
      (1 font-lock-keyword-face)
      ("\\<In\\>" nil nil (0 font-lock-keyword-face))

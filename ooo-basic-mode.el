@@ -271,11 +271,12 @@ nil otherwise."
   "Regexp to detect the end of a with statement.")
 
 (defvar ooo-basic-font-lock-keywords-1
-  `(("\\<\\(Declare\\)\\s-+\\(Function\\)\\s-+\\([A-z_][A-z_0-9]*\\)\\s-+\\(Lib\\)\\>"
-     (1 font-lock-keyword-face)
-     (2 font-lock-keyword-face)
-     (3 font-lock-function-name-face)
-     (4 font-lock-keyword-face)
+  `(("\\<Declare\\>"
+     (0 font-lock-keyword-face)
+     ("\\<Function\\>" nil nil (0 font-lock-keyword-face))
+     ("\\<\\([A-z_][A-z_0-9]*\\)\\s-+\\(Lib\\)\\>" nil nil
+      (1 font-lock-function-name-face)
+      (2 font-lock-keyword-face))
      )
     (,ooo-basic-definition-start-re
      (1 font-lock-keyword-face)

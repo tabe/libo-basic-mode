@@ -57,7 +57,7 @@ nil otherwise."
       (setq r (cons (list e i) r))
       (setq i (+ i 1)))))
 
-(defconst ooo-basic-mode-version "0.0.2_beta"
+(defconst ooo-basic-mode-version "0.0.2"
   "Version string for ooo-basic-mode.")
 
 (defgroup ooo-basic nil

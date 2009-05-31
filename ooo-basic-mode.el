@@ -4338,15 +4338,30 @@ which has the given name, nil otherwise."
     (goto-char bound)
     (when templates (search-forward " " nil t))))
 
+(defconst ooo-basic-ooo-process-name
+  "OpenOffice.org"
+  "Name of OpenOffice.org process.")
+
+(defconst ooo-basic-ooo-buffer-name
+  "*OpenOffice.org*"
+  "Name of buffer associated with OpenOffice.org process.")
+
 (defvar ooo-basic-ooo-program-directory
   "/opt/openoffice.org3/program"
   "Directory of OpenOffice.org program.")
 
-(defun ooo-basic-start-soffice ()
-  "Start soffice."
+(defun ooo-basic-start-ooo ()
+  "Start OpenOffice.org."
   (interactive)
   (let ((soffice (concat ooo-basic-ooo-program-directory "/soffice")))
-    (start-process "OpenOffice.org" "OpenOffice.org" soffice)))
+    (start-process ooo-basic-ooo-process-name
+                   ooo-basic-ooo-buffer-name
+                   soffice)))
+
+(defun ooo-basic-quit-ooo ()
+  "Quit OpenOffice.org."
+  (interactive)
+  (quit-process ooo-basic-ooo-process-name))
 
 (defun ooo-basic-mode-version ()
   "Echo the current version of ooo-basic-mode in the minibuffer."
@@ -4366,7 +4381,8 @@ Key bindings:
   (define-key ooo-basic-mode-map "\C-c\C-ic" 'ooo-basic-insert-uno-constant)
   (define-key ooo-basic-mode-map "\C-c\C-b" 'ooo-basic-browse-idl-reference)
   (define-key ooo-basic-mode-map "\C-c\C-n" 'ooo-basic-new-definition)
-  (define-key ooo-basic-mode-map "\C-c\C-s" 'ooo-basic-start-soffice)
+  (define-key ooo-basic-mode-map "\C-c\C-s" 'ooo-basic-start-ooo)
+  (define-key ooo-basic-mode-map "\C-c\C-q" 'ooo-basic-quit-ooo)
   (set-syntax-table ooo-basic-mode-syntax-table)
   (set (make-local-variable 'comment-start) "'")
   (set (make-local-variable 'comment-end) "")

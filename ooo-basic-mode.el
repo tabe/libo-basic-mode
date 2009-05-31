@@ -4338,6 +4338,16 @@ which has the given name, nil otherwise."
     (goto-char bound)
     (when templates (search-forward " " nil t))))
 
+(defvar ooo-basic-ooo-program-directory
+  "/opt/openoffice.org3/program"
+  "Directory of OpenOffice.org program.")
+
+(defun ooo-basic-start-soffice ()
+  "Start soffice."
+  (interactive)
+  (let ((soffice (concat ooo-basic-ooo-program-directory "/soffice")))
+    (start-process "OpenOffice.org" "OpenOffice.org" soffice)))
+
 (defun ooo-basic-mode-version ()
   "Echo the current version of ooo-basic-mode in the minibuffer."
   (interactive)
@@ -4356,6 +4366,7 @@ Key bindings:
   (define-key ooo-basic-mode-map "\C-c\C-ic" 'ooo-basic-insert-uno-constant)
   (define-key ooo-basic-mode-map "\C-c\C-b" 'ooo-basic-browse-idl-reference)
   (define-key ooo-basic-mode-map "\C-c\C-n" 'ooo-basic-new-definition)
+  (define-key ooo-basic-mode-map "\C-c\C-s" 'ooo-basic-start-soffice)
   (set-syntax-table ooo-basic-mode-syntax-table)
   (set (make-local-variable 'comment-start) "'")
   (set (make-local-variable 'comment-end) "")

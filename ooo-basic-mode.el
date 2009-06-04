@@ -164,7 +164,7 @@ nil otherwise."
   "Builtin properties available in OpenOffice.org Basic.")
 
 (defvar ooo-basic-builtin-functions
-  '("CBool" "CDate" "CDbl" "CInt" "CLng" "CSng" "CStr" "Val"
+  '("CBool" "CDate" "CDbl" "CInt" "CLng" "CSng" "CStr"
     "Array" "DimArray"
     "Choose" "IIF"
     "IsArray" "IsDate" "IsEmpty" "IsNull" "IsNumeric" "IsObject" "IsMissing"

@@ -284,10 +284,11 @@ nil otherwise."
 (defvar ooo-basic-font-lock-keywords-1
   `(("\\<Declare\\>"
      (0 font-lock-keyword-face)
-     ("\\<Function\\>" nil nil (0 font-lock-keyword-face))
+     ("\\<\\(?:Function\\|Sub\\)\\>" nil nil (0 font-lock-keyword-face))
      ("\\<\\([A-z_][A-z_0-9]*\\)\\s-+\\(Lib\\)\\>" nil nil
       (1 font-lock-function-name-face)
       (2 font-lock-keyword-face))
+     ("\\<Alias\\>" nil nil (0 font-lock-keyword-face))
      )
     (,ooo-basic-definition-start-re
      (1 font-lock-keyword-face)

@@ -164,7 +164,8 @@ nil otherwise."
   "Builtin properties available in OpenOffice.org Basic.")
 
 (defvar ooo-basic-builtin-functions
-  '("CBool" "CDate" "CDbl" "CInt" "CLng" "CSng" "CStr"
+  '("CBool" "CDbl" "CInt" "CLng" "CSng" "CStr"
+    "CDate" "CDateFromIso" "CDateToIso"
     "Array" "DimArray"
     "Choose" "IIF"
     "IsArray" "IsDate" "IsEmpty" "IsNull" "IsNumeric" "IsObject" "IsMissing"
@@ -178,7 +179,7 @@ nil otherwise."
     "Dir" "MkDir" "RmDir" "ChDir" "ChDrive" "CurDir" "CurDrive"
     "FileAttr" "FileCopy" "Kill" "FileExists" "GetAttr" "SetAttr" "Name"
     "FileDateTime" "FileLen" "FreeFile"
-    "Open" "Close" "Print" "Reset" "Get" "Put" "Write" "Eof" "Lof"
+    "Open" "Close" "Print" "Reset" "Get" "Put" "Seek" "Write" "Eof" "Loc" "Lof"
     "MsgBox" "InputBox"
     "Switch"
     "Beep" "Shell" "Wait" "GetSystemTicks" "Environ"

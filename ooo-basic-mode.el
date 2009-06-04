@@ -151,7 +151,8 @@ nil otherwise."
   "Builtin constants available in OpenOffice.org Basic.")
 
 (defvar ooo-basic-builtin-operators
-  '("AND" "EQV" "IMP" "NOT" "OR" "XOR"
+  '("=" "<" ">" "<=" ">=" "<>" "Is"
+    "AND" "EQV" "IMP" "NOT" "OR" "XOR"
     "MOD"
     )
   "Builtin operators available in OpenOffice.org Basic.")

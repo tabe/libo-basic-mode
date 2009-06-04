@@ -96,7 +96,6 @@ nil otherwise."
     "EndIf"
     "Error"
     "Explicit"
-    "False"
     "For"
     "Global"
     "GoTo"
@@ -119,7 +118,6 @@ nil otherwise."
     "Static"
     "Then"
     "To"
-    "True"
     "Wend"
     "When"
     "While"
@@ -147,6 +145,10 @@ nil otherwise."
     "ThisComponent"
     )
   "Global Variables provided in OpenOffice.org Basic.")
+
+(defvar ooo-basic-builtin-constants
+  '("True" "False" "PI")
+  "Builtin constants available in OpenOffice.org Basic.")
 
 (defvar ooo-basic-builtin-operators
   '("AND" "EQV" "IMP" "NOT" "OR" "XOR"
@@ -319,7 +321,10 @@ nil otherwise."
   (append ooo-basic-font-lock-keywords-1
           `(,(regexp-opt ooo-basic-keywords 'words)
             (,(regexp-opt ooo-basic-types 'words) 0 font-lock-type-face)
-            (,(regexp-opt (append ooo-basic-global-variables ooo-basic-builtin-properties) 'words)
+            (,(regexp-opt (append ooo-basic-builtin-constants
+                                  ooo-basic-global-variables
+                                  ooo-basic-builtin-properties)
+                          'words)
              0 font-lock-constant-face)
             ))
   "Level 2.")

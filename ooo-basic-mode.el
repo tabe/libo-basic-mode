@@ -166,6 +166,7 @@ nil otherwise."
 (defvar ooo-basic-builtin-functions
   '("CBool" "CDbl" "CInt" "CLng" "CSng" "CStr"
     "CDate" "CDateFromIso" "CDateToIso"
+    "DefBool" "DefDate" "DefDbl" "DefInt" "DefLng" "DefObj" "DefVar"
     "Array" "DimArray"
     "Choose" "IIF"
     "IsArray" "IsDate" "IsEmpty" "IsNull" "IsNumeric" "IsObject" "IsMissing"

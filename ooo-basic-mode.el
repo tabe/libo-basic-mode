@@ -198,6 +198,7 @@ nil otherwise."
     "GetProcessServiceManager"
     "ConvertFromUrl" "ConvertToUrl"
     "CompatibilityMode"
+    "FreeLibrary"
     )
   "Builtin functions available in OpenOffice.org Basic.")
 

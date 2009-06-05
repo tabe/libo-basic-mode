@@ -16,7 +16,7 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;; Author: Takeshi Abe <tabe@fixedpoint.jp>
-;; Version: 0.0.2_alpha
+;; Version: 0.0.3_alpha
 ;; Keywords: languages, basic, not so evil
 
 ;; Installation:

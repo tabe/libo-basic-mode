@@ -284,9 +284,12 @@ nil otherwise."
   "Regexp to detect the end of a with statement.")
 
 (defvar ooo-basic-font-lock-keywords-1
-  `(("\\<\\([A-z_][A-z_0-9]*\\)\\([!@#$%&]\\)"
+  `(("\\<\\([A-z_][A-z_0-9]*\\)\\([!@#$%&]\\)" ; auto type modifier
      (1 font-lock-variable-name-face)
      (2 font-lock-type-face)
+     )
+    ("\\<Dim\\>"
+     ("\\<\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*(.*)\\)?\\s-+As\\>" nil nil (1 font-lock-variable-name-face))
      )
     ("\\<Declare\\>"
      (0 font-lock-keyword-face)
@@ -312,12 +315,18 @@ nil otherwise."
      (1 font-lock-keyword-face)
      (2 font-lock-keyword-face)
      )
-    ("\\<For\\>.+=.+\\<To\\>.+\\<\\(Step\\)\\>"
-     (1 font-lock-keyword-face)
+    ("\\<For\\s-+\\([A-z_][A-z_0-9]*\\)\\s-+=.+\\<To\\>"
+     (1 font-lock-variable-name-face)
+     ("\\<\\(Step\\)\\>" nil nil (0 font-lock-keyword-face))
      )
     ("\\<For\\s-+\\(Each\\)\\>"
      (1 font-lock-keyword-face)
-     ("\\<In\\>" nil nil (0 font-lock-keyword-face))
+     ("\\<\\([A-z_][A-z_0-9]*\\)\\s-+\\(In\\)\\>" nil nil
+      (1 font-lock-variable-name-face)
+      (2 font-lock-keyword-face))
+     )
+    ("\\<Next\\s-+\\([A-z_][A-z_0-9]*\\)\\>"
+     (1 font-lock-variable-name-face)
      )
     ("\\<ReDim\\>"
      (0 font-lock-keyword-face)

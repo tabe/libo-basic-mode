@@ -4393,6 +4393,15 @@ which has the given name, nil otherwise."
   (interactive)
   (quit-process ooo-basic-ooo-process-name))
 
+(defun ooo-basic-call-macro-by-name (name)
+  "Call a macro of OpenOffice.org by its name."
+  (interactive "sMacro: ")
+  (let ((soffice (concat ooo-basic-ooo-program-directory "/soffice")))
+    (start-process ooo-basic-ooo-process-name
+                   ooo-basic-ooo-buffer-name
+                   soffice
+                   (concat "macro:///" name))))
+
 (defun ooo-basic-mode-version ()
   "Echo the current version of ooo-basic-mode in the minibuffer."
   (interactive)
@@ -4413,6 +4422,7 @@ Key bindings:
   (define-key ooo-basic-mode-map "\C-c\C-n" 'ooo-basic-new-definition)
   (define-key ooo-basic-mode-map "\C-c\C-s" 'ooo-basic-start-ooo)
   (define-key ooo-basic-mode-map "\C-c\C-q" 'ooo-basic-quit-ooo)
+  (define-key ooo-basic-mode-map "\C-c\C-cm" 'ooo-basic-call-macro-by-name)
   (set-syntax-table ooo-basic-mode-syntax-table)
   (set (make-local-variable 'comment-start) "'")
   (set (make-local-variable 'comment-end) "")

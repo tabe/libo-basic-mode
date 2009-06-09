@@ -97,6 +97,7 @@ nil otherwise."
     "Error"
     "Explicit"
     "For"
+    "Function"
     "Global"
     "GoSub"
     "GoTo"
@@ -118,8 +119,10 @@ nil otherwise."
     "Select"
     "Set"
     "Static"
+    "Sub"
     "Then"
     "To"
+    "Type"
     "Wend"
     "When"
     "While"
@@ -288,6 +291,9 @@ nil otherwise."
      (1 font-lock-variable-name-face)
      (2 font-lock-type-face)
      )
+    ("\\<By\\(?:Ref\\|Val\\)\\s-+\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*([^)]*)\\|\\>\\)"
+     (1 font-lock-variable-name-face)
+     )
     ("\\<Dim\\>"
      ("\\<\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*(.*)\\)?\\s-+As\\>" nil nil (1 font-lock-variable-name-face))
      )
@@ -299,9 +305,14 @@ nil otherwise."
       (2 font-lock-keyword-face))
      ("\\<Alias\\>" nil nil (0 font-lock-keyword-face))
      )
-    (,ooo-basic-definition-start-re
-     (1 font-lock-keyword-face)
-     ("\\<\\([A-z_][A-z_0-9]*\\)\\>.*$" nil nil (1 font-lock-function-name-face))
+    ("^\\s-*\\(?:P\\(?:rivate\\|ublic\\)\\s-+\\)?\\(?:Sub\\|Function\\)\\s-+\\([A-z_][A-z_0-9]*\\)\\>"
+     (1 font-lock-function-name-face)
+     ("[(,]\\s-*\\(?:By\\(?:Ref\\|Val\\)\\s-+\\)?\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*([^)]*)\\)?" nil nil
+      (1 font-lock-variable-name-face)
+      )
+     )
+    ("^\\s-*\\(?:P\\(?:rivate\\|ublic\\)\\s-+\\)?Type\\s-+\\([A-z_][A-z_0-9]*\\)\\>"
+     (1 font-lock-function-name-face)
      )
     ,ooo-basic-definition-end-re
     (,ooo-basic-label-re

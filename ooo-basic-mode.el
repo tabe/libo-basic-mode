@@ -4380,13 +4380,16 @@ which has the given name, nil otherwise."
   "/opt/openoffice.org3/program"
   "Directory of OpenOffice.org program.")
 
+(defun ooo-basic-ooo-soffice ()
+  "Path of the program of OpenOffice.org installation."
+  (concat ooo-basic-ooo-program-directory "/soffice"))
+
 (defun ooo-basic-start-ooo ()
   "Start OpenOffice.org."
   (interactive)
-  (let ((soffice (concat ooo-basic-ooo-program-directory "/soffice")))
-    (start-process ooo-basic-ooo-process-name
-                   ooo-basic-ooo-buffer-name
-                   soffice)))
+  (start-process ooo-basic-ooo-process-name
+                 ooo-basic-ooo-buffer-name
+                 (ooo-basic-ooo-soffice)))
 
 (defun ooo-basic-quit-ooo ()
   "Quit OpenOffice.org."
@@ -4396,11 +4399,10 @@ which has the given name, nil otherwise."
 (defun ooo-basic-call-macro-by-name (name)
   "Call a macro of OpenOffice.org by its name."
   (interactive "sMacro: ")
-  (let ((soffice (concat ooo-basic-ooo-program-directory "/soffice")))
-    (start-process ooo-basic-ooo-process-name
-                   ooo-basic-ooo-buffer-name
-                   soffice
-                   (concat "macro:///" name))))
+  (start-process ooo-basic-ooo-process-name
+                 ooo-basic-ooo-buffer-name
+                 (ooo-basic-ooo-soffice)
+                 (concat "macro:///" name)))
 
 (defun ooo-basic-mode-version ()
   "Echo the current version of ooo-basic-mode in the minibuffer."

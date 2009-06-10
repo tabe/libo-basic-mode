@@ -318,6 +318,9 @@ nil otherwise."
     (,ooo-basic-label-re
      (1 font-lock-constant-face)
      )
+    ("\\<GoTo\\s-+\\([A-z_0-9]+\\)"
+     (1 font-lock-constant-face)
+     )
     ("\\<Exit\\>"
      (0 font-lock-keyword-face)
      ("\\<\\(Sub\\|Function\\)\\>" nil nil (1 font-lock-keyword-face))

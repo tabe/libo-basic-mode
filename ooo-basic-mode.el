@@ -350,6 +350,9 @@ nil otherwise."
      (0 ,(if (boundp 'font-lock-comment-delimiter-face) 'font-lock-comment-delimiter-face 'font-lock-comment-face))
      (".*$" nil nil (0 font-lock-comment-face))
      )
+    ("\\<Const\\s-*\\([A-z_][A-z_0-9]*\\)\\>"
+     (1 font-lock-constant-face)
+     )
     ("^\\s-*Option\\>"
      ("\\<\\(Base\\)\\s-+\\([01]\\)\\>" nil nil
       (1 font-lock-keyword-face)

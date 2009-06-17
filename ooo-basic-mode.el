@@ -307,7 +307,7 @@ nil otherwise."
      )
     ("^\\s-*\\(?:P\\(?:rivate\\|ublic\\)\\s-+\\)?\\(?:Sub\\|Function\\)\\s-+\\([A-z_][A-z_0-9]*\\)\\>"
      (1 font-lock-function-name-face)
-     ("[(,]\\s-*\\(?:By\\(?:Ref\\|Val\\)\\s-+\\)?\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*([^)]*)\\)?" nil nil
+     ("[(,]\\s-*\\(?:Optional\\s-+\\)?\\(?:By\\(?:Ref\\|Val\\)\\s-+\\)?\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*([^)]*)\\)?" nil nil
       (1 font-lock-variable-name-face)
       )
      )

@@ -354,7 +354,7 @@ nil otherwise."
      (1 font-lock-constant-face)
      )
     ("^\\s-*Option\\>"
-     ("\\<\\(Base\\)\\s-+\\([01]\\)\\>" nil nil
+     ("\\<\\(Base\\|VBASupport\\)\\s-+\\([01]\\)\\>" nil nil
       (1 font-lock-keyword-face)
       (2 font-lock-constant-face))
      )

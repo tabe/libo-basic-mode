@@ -286,6 +286,10 @@ nil otherwise."
   "^\\s-*#?End\\s-+With\\>"
   "Regexp to detect the end of a with statement.")
 
+(defvar ooo-basic-redim-re
+  "\\<ReDim\\(?:\\s-+\\(Preserve\\)\\)?\\s-+\\([A-z_][A-z_0-9]*\\)"
+  "Regexp to detect a ReDim statement.")
+
 (defvar ooo-basic-font-lock-keywords-1
   `(("\\<\\([A-z_][A-z_0-9]*\\)\\([!@#$%&]\\)" ; auto type modifier
      (1 font-lock-variable-name-face)
@@ -342,9 +346,9 @@ nil otherwise."
     ("\\<Next\\s-+\\([A-z_][A-z_0-9]*\\)\\>"
      (1 font-lock-variable-name-face)
      )
-    ("\\<ReDim\\>"
-     (0 font-lock-keyword-face)
-     ("\\<Preserve\\>" nil nil (0 font-lock-keyword-face))
+    (,ooo-basic-redim-re
+     (1 font-lock-keyword-face)
+     (2 font-lock-variable-name-face)
      )
     ("\\<REM\\>"
      (0 ,(if (boundp 'font-lock-comment-delimiter-face) 'font-lock-comment-delimiter-face 'font-lock-comment-face))

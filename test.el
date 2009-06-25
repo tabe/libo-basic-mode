@@ -121,6 +121,10 @@
 (assert (not (string-match ooo-basic-end-with-re "endwith")))
 (assert (not (string-match ooo-basic-end-with-re " \tend if")))
 
+(assert (string-match ooo-basic-redim-re "ReDim abc(x)"))
+(assert (string-match ooo-basic-redim-re "redim preserve x86(a + b)"))
+(assert (not (string-match ooo-basic-redim-re "dim x as integer")))
+
 ;;; Predicates
 
 (assert (not (ooo-basic-uno-module-name-p "")))

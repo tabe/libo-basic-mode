@@ -4217,9 +4217,8 @@ which has the given name, nil otherwise."
    #'(lambda () (looking-at open-re))
    #'(lambda () (looking-at close-re))))
 
-(defun ooo-basic-multiline-if-p ()
-  "Decide whether an if statement begins but not single line."
-  (and (looking-at ooo-basic-if-re)
+(defun ooo-basic-start-and-end-p (open-re close-function)
+  (and (looking-at open-re)
        (save-excursion
          (beginning-of-line)
          ;; 1st reconstruct complete line
@@ -4254,11 +4253,26 @@ which has the given name, nil otherwise."
                                            (substring complete-line (1+ p2)))))
              ;; now drop tailing comment if any
              (when (setq p1 (string-match "'" complete-line))
-               (setq complete-line (substring complete-line 0 p1)))
-             ;; now drop 1st concatenated instruction is any
-             (when (setq p1 (string-match ":" complete-line))
                (setq complete-line (substring complete-line 0 p1))))
-           (string-match "Then\\s-*$" complete-line)))))
+           (funcall close-function complete-line)))))
+
+(defun ooo-basic-multiline-if-p ()
+  "Decide whether an if statement begins but not single line."
+  (ooo-basic-start-and-end-p
+   ooo-basic-if-re
+   #'(lambda (complete-line)
+       ;; now drop 1st concatenated instruction is any
+       (let ((p1 (string-match ":" complete-line)))
+         (when p1
+           (setq complete-line (substring complete-line 0 p1))))
+       (string-match "Then\\s-*$" complete-line))))
+
+(defun ooo-basic-multiline-do-p ()
+  "Decide whether an do statement begins but not single line."
+  (ooo-basic-start-and-end-p
+   ooo-basic-do-re
+   #'(lambda (complete-line)
+       (not (string-match "\\<Loop\\>" complete-line)))))
 
 (defun ooo-basic-find-matching-if ()
   "Move backward to find the matching if."
@@ -4272,7 +4286,9 @@ which has the given name, nil otherwise."
 
 (defun ooo-basic-find-matching-do ()
   "Move backward to find the mathing do."
-  (ooo-basic-find-matching-statement ooo-basic-do-re ooo-basic-loop-re))
+  (%ooo-basic-find-matching-statement
+   'ooo-basic-multiline-do-p
+   #'(lambda () (looking-at ooo-basic-loop-re))))
 
 (defun ooo-basic-find-matching-for ()
   "Move backward to find the matching for."
@@ -4353,7 +4369,7 @@ which has the given name, nil otherwise."
                           ((looking-at ooo-basic-else-re) tmp)
                           ((looking-at ooo-basic-select-re) tmp)
                           ((looking-at ooo-basic-case-re) tmp)
-                          ((looking-at ooo-basic-do-re) tmp)
+                          ((ooo-basic-multiline-do-p) tmp)
                           ((looking-at ooo-basic-for-re) tmp)
                           ((looking-at ooo-basic-while-re) tmp)
                           ((looking-at ooo-basic-with-re) tmp)

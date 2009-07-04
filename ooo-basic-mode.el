@@ -4306,8 +4306,7 @@ which has the given name, nil otherwise."
   "Return the proper indentation for the current line."
   (save-excursion
     (beginning-of-line)
-    (cond ((looking-at "\\s-*$") 0)
-          ((looking-at ooo-basic-definition-start-re) 0)
+    (cond ((looking-at ooo-basic-definition-start-re) 0)
           ((looking-at ooo-basic-definition-end-re) 0)
           ((looking-at ooo-basic-label-re)
            ooo-basic-absolute-indent-level-for-label)

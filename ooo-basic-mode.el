@@ -298,7 +298,7 @@ nil otherwise."
     ("\\<By\\(?:Ref\\|Val\\)\\s-+\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*([^)]*)\\|\\>\\)"
      (1 font-lock-variable-name-face)
      )
-    ("\\<\\(?:Dim\\|Static\\)\\>"
+    ("\\<\\(?:Dim\\|Static\\|Private\\|Public\\)\\>"
      ("\\<\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*(.*)\\)?\\s-+As\\>" nil nil (1 font-lock-variable-name-face))
      )
     ("\\<Declare\\>"

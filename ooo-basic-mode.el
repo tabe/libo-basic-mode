@@ -24,6 +24,7 @@
 ;; add the following to your .emacs:
 ;; (autoload 'ooo-basic-mode "ooo-basic-mode" "A major mode for OpenOffice.org Basic." t)
 ;; (push '("\\.bas\\'" . ooo-basic-mode) auto-mode-alist)
+;; (setq ooo-basic-ooo-program-directory "/var/lib/openoffice.org3/program")
 
 ;; Code:
 

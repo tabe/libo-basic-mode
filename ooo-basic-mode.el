@@ -4431,12 +4431,14 @@ which has the given name, nil otherwise."
   (interactive)
   (start-process ooo-basic-ooo-process-name
                  ooo-basic-ooo-buffer-name
-                 (ooo-basic-ooo-soffice)))
+                 (ooo-basic-ooo-soffice))
+  (display-buffer ooo-basic-ooo-buffer-name))
 
 (defun ooo-basic-quit-ooo ()
   "Quit OpenOffice.org."
   (interactive)
-  (quit-process ooo-basic-ooo-process-name))
+  (quit-process ooo-basic-ooo-process-name)
+  (delete-windows-on ooo-basic-ooo-buffer-name))
 
 (defun ooo-basic-call-macro-by-name (name)
   "Call a macro of OpenOffice.org by its name."

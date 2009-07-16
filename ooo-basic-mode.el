@@ -4446,7 +4446,8 @@ which has the given name, nil otherwise."
   (start-process ooo-basic-ooo-process-name
                  ooo-basic-ooo-buffer-name
                  (ooo-basic-ooo-soffice)
-                 (concat "macro:///" name)))
+                 (concat "macro:///" name))
+  (display-buffer ooo-basic-ooo-buffer-name))
 
 (defun ooo-basic-mode-version ()
   "Echo the current version of ooo-basic-mode in the minibuffer."

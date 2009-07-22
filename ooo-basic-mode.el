@@ -300,7 +300,7 @@ nil otherwise."
      (1 font-lock-variable-name-face)
      )
     ("\\<\\(?:Dim\\|Static\\|Private\\|Public\\)\\>"
-     ("\\<\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*(.*)\\)?\\s-+As\\>" nil nil (1 font-lock-variable-name-face))
+     ("\\<\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*(.*)\\)?\\(?:\\s-+As\\s-+[A-z_][A-z_0-9]*\\)?\\s-*\\(?:,\\|$\\)" nil nil (1 font-lock-variable-name-face))
      )
     ("\\<Declare\\>"
      (0 font-lock-keyword-face)

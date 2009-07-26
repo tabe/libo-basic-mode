@@ -20,13 +20,17 @@
 
 ;;; Regexps
 
-(defun assert-string-match (re str)
+(defun assert-string-match (re str &optional just)
   "Assert that the regexp matches the given string."
-  (assert (string-match re str)))
+  (let ((re (if just (concat "^" re "$") re)))
+    (unless (string-match re str)
+      (error "assert-string-match failed: %s" (prin1-to-string (list re str))))))
 
 (defun assert-string-not-match (re str)
   "Assert that the regexp does not match the given string."
-  (assert (not (string-match re str))))
+  (let ((p (string-match re str)))
+    (when p
+      (error "assert-string-not-match failed: %s => %d" (prin1-to-string (list re str)) p))))
 
 (assert (string-match ooo-basic-blank-re ""))
 (assert (string-match ooo-basic-blank-re "  \t"))
@@ -133,11 +137,11 @@
 (assert (string-match ooo-basic-redim-re "redim preserve x86(a + b)"))
 (assert (not (string-match ooo-basic-redim-re "dim x as integer")))
 
-(assert-string-match ooo-basic-variable-spec-re "x")
-(assert-string-match ooo-basic-variable-spec-re "C99")
-(assert-string-match ooo-basic-variable-spec-re "x As Integer")
-(assert-string-match ooo-basic-variable-spec-re "x() As Integer")
-(assert-string-match ooo-basic-variable-spec-re "x(1 to 8) As Integer")
+(assert-string-match ooo-basic-variable-spec-re "x" t)
+(assert-string-match ooo-basic-variable-spec-re "C99" t)
+(assert-string-match ooo-basic-variable-spec-re "x As Integer" t)
+(assert-string-match ooo-basic-variable-spec-re "x() As Integer" t)
+(assert-string-match ooo-basic-variable-spec-re "x(1 to 8) As Integer" t)
 (assert-string-not-match ooo-basic-variable-spec-re "0xCC")
 
 ;;; Predicates

@@ -20,6 +20,14 @@
 
 ;;; Regexps
 
+(defun assert-string-match (re str)
+  "Assert that the regexp matches the given string."
+  (assert (string-match re str)))
+
+(defun assert-string-not-match (re str)
+  "Assert that the regexp does not match the given string."
+  (assert (not (string-match re str))))
+
 (assert (string-match ooo-basic-blank-re ""))
 (assert (string-match ooo-basic-blank-re "  \t"))
 (assert (not (string-match ooo-basic-blank-re "a")))
@@ -124,6 +132,13 @@
 (assert (string-match ooo-basic-redim-re "ReDim abc(x)"))
 (assert (string-match ooo-basic-redim-re "redim preserve x86(a + b)"))
 (assert (not (string-match ooo-basic-redim-re "dim x as integer")))
+
+(assert-string-match ooo-basic-variable-spec-re "x")
+(assert-string-match ooo-basic-variable-spec-re "C99")
+(assert-string-match ooo-basic-variable-spec-re "x As Integer")
+(assert-string-match ooo-basic-variable-spec-re "x() As Integer")
+(assert-string-match ooo-basic-variable-spec-re "x(1 to 8) As Integer")
+(assert-string-not-match ooo-basic-variable-spec-re "0xCC")
 
 ;;; Predicates
 

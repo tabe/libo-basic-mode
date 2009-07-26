@@ -291,6 +291,10 @@ nil otherwise."
   "\\<ReDim\\(?:\\s-+\\(Preserve\\)\\)?\\s-+\\([A-z_][A-z_0-9]*\\)"
   "Regexp to detect a ReDim statement.")
 
+(defvar ooo-basic-variable-spec-re
+  "\\<\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*(.*)\\)?\\(?:\\s-+As\\s-+[A-z_][A-z_0-9]*\\>\\)?"
+  "Regexp to detect a variable occurence in declaration.")
+
 (defvar ooo-basic-font-lock-keywords-1
   `(("\\<\\([A-z_][A-z_0-9]*\\)\\([!@#$%&]\\)" ; auto type modifier
      (1 font-lock-variable-name-face)
@@ -299,8 +303,19 @@ nil otherwise."
     ("\\<By\\(?:Ref\\|Val\\)\\s-+\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*([^)]*)\\|\\>\\)"
      (1 font-lock-variable-name-face)
      )
-    ("\\<\\(?:Dim\\|Static\\|Private\\|Public\\)\\>"
-     ("\\<\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*(.*)\\)?\\(?:\\s-+As\\s-+[A-z_][A-z_0-9]*\\)?\\s-*\\(?:,\\|$\\)" nil nil (1 font-lock-variable-name-face))
+    (,(concat "\\<\\(?:Dim\\|Static\\|Private\\|Public\\)\\s-+" ooo-basic-variable-spec-re)
+     (1 font-lock-variable-name-face)
+     (,ooo-basic-variable-spec-re
+      (let* ((s (save-excursion (search-forward "," nil t)))
+             (eol (save-excursion (re-search-forward "\\('\\|\\<REM\\>\\|$\\)" nil t))))
+        (cond ((and s (<= s eol))
+               (goto-char s)
+               eol)
+              (t
+               (goto-char eol)
+               nil)))
+      nil
+      (1 font-lock-variable-name-face))
      )
     ("\\<Declare\\>"
      (0 font-lock-keyword-face)
@@ -312,7 +327,7 @@ nil otherwise."
      )
     ("^\\s-*\\(?:P\\(?:rivate\\|ublic\\)\\s-+\\)?\\(?:Sub\\|Function\\)\\s-+\\([A-z_][A-z_0-9]*\\)\\>"
      (1 font-lock-function-name-face)
-     ("[(,]\\s-*\\(?:Optional\\s-+\\)?\\(?:By\\(?:Ref\\|Val\\)\\s-+\\)?\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*([^)]*)\\)?" nil nil
+     (,(concat "[(,]\\s-*\\(?:Optional\\s-+\\)?\\(?:By\\(?:Ref\\|Val\\)\\s-+\\)?" ooo-basic-variable-spec-re) nil nil
       (1 font-lock-variable-name-face)
       )
      )

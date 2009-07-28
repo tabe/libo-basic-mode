@@ -312,7 +312,7 @@ nil otherwise."
                (goto-char s)
                eol)
               (t
-               (goto-char eol)
+               (re-search-forward "$" nil t)
                nil)))
       nil
       (1 font-lock-variable-name-face))

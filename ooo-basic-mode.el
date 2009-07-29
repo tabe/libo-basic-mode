@@ -4457,7 +4457,7 @@ which has the given name, nil otherwise."
 
 (defun ooo-basic-call-macro-by-name (name)
   "Call a macro of OpenOffice.org by its name."
-  (interactive "sMacro: ")
+  (interactive "sMacro (e.g., 'Standard.Module1.Main'): ")
   (start-process ooo-basic-ooo-process-name
                  ooo-basic-ooo-buffer-name
                  (ooo-basic-ooo-soffice)

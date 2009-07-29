@@ -16,7 +16,7 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;; Author: Takeshi Abe <tabe@fixedpoint.jp>
-;; Version: 0.0.4_alpha
+;; Version: 0.0.4
 ;; Keywords: languages, basic, not so evil
 
 ;; Installation:
@@ -58,7 +58,7 @@ nil otherwise."
       (setq r (cons (list e i) r))
       (setq i (+ i 1)))))
 
-(defconst ooo-basic-mode-version "0.0.4_alpha"
+(defconst ooo-basic-mode-version "0.0.4"
   "Version string for ooo-basic-mode.")
 
 (defgroup ooo-basic nil

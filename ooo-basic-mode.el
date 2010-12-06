@@ -293,7 +293,7 @@ nil otherwise."
 
 (defvar ooo-basic-variable-spec-re
   "\\<\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*(.*)\\)?\\(?:\\s-+As\\s-+[A-z_][A-z_0-9]*\\>\\)?"
-  "Regexp to detect a variable occurence in declaration.")
+  "Regexp to detect a variable occurrence in declaration.")
 
 (defvar ooo-basic-font-lock-keywords-1
   `(("\\<\\([A-z_][A-z_0-9]*\\)\\([!@#$%&]\\)" ; auto type modifier

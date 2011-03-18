@@ -3,7 +3,7 @@
 (assert (eq nil (append-map #'(lambda (x) x) nil)))
 (assert (equal '(a a b c b c d d) (append-map #'(lambda (x) (append x x))  '((a) (b c) (d)))))
 
-(assert (eq nil (filter-map #'(lambda (x) x) nil))) 
+(assert (eq nil (filter-map #'(lambda (x) x) nil)))
 (assert (equal '(a b c) (filter-map #'(lambda (x) (and (stringp x) (intern x))) '("a" 1 nil "b" "c"))))
 
 (assert (initial-string-p "" ""))

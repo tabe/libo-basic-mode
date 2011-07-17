@@ -4123,7 +4123,7 @@ nil otherwise."
   (insert
    (completing-read
     "Constant: "
-    (dynamic-completion-table libo-basic-uno-constant-name-completion))))
+    (completion-table-dynamic (function libo-basic-uno-constant-name-completion)))))
 
 (defun libo-basic-uno-module-name-p (name)
   "Return non-nil if there exists a UNO module which has the given name,
@@ -4181,7 +4181,7 @@ which has the given name, nil otherwise."
                 (if default
                     (concat "Name (default " default "): ")
                   "Name: ")
-                (dynamic-completion-table libo-basic-uno-name-completion)
+                (completion-table-dynamic (function libo-basic-uno-name-completion))
                 nil
                 t
                 nil

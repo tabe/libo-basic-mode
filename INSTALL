@@ -1,5 +1,6 @@
-Put ooo-basic-mode.el somewhere in your path, compile it, and
+Put libo-basic-mode.el somewhere in your path, compile it, and
 add the following to your .emacs:
-(autoload 'ooo-basic-mode "ooo-basic-mode" "A major mode for OpenOffice.org Basic." t)
-(push '("\\.bas\\'" . ooo-basic-mode) auto-mode-alist)
-(setq ooo-basic-ooo-program-directory "/var/lib/openoffice.org3/program")
+(autoload 'libo-basic-mode "libo-basic-mode"
+          "A major mode for LibreOffice/OpenOffice.org Basic." t)
+(push '("\\.bas\\'" . libo-basic-mode) auto-mode-alist)
+(setq libo-basic-libo-program-directory "/var/lib/libreoffice3/program")

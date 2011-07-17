@@ -1,6 +1,7 @@
-;;; ooo-basic-mode.el -- A major mode for editing OpenOffice.org Basic programs
+;;; libo-basic-mode.el
+;;; -- A major mode for editing LibreOffice/OpenOffice.org Basic programs
 
-;; Copyright (C) 2009 Takeshi Abe <tabe@fixedpoint.jp>
+;; Copyright (C) 2009,2011 Takeshi Abe <tabe@fixedpoint.jp>
 ;;
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -20,11 +21,12 @@
 ;; Keywords: languages, basic, not so evil
 
 ;; Installation:
-;; Put ooo-basic-mode.el somewhere in your path, compile it, and
+;; Put libo-basic-mode.el somewhere in your path, compile it, and
 ;; add the following to your .emacs:
-;; (autoload 'ooo-basic-mode "ooo-basic-mode" "A major mode for OpenOffice.org Basic." t)
-;; (push '("\\.bas\\'" . ooo-basic-mode) auto-mode-alist)
-;; (setq ooo-basic-ooo-program-directory "/var/lib/openoffice.org3/program")
+;; (autoload 'libo-basic-mode "libo-basic-mode"
+;;           "A major mode for LibreOffice/OpenOffice.org Basic." t)
+;; (push '("\\.bas\\'" . libo-basic-mode) auto-mode-alist)
+;; (setq libo-basic-libo-program-directory "/var/lib/libreoffice3/program")
 
 ;; Code:
 
@@ -58,31 +60,31 @@ nil otherwise."
       (setq r (cons (list e i) r))
       (setq i (+ i 1)))))
 
-(defconst ooo-basic-mode-version "0.0.5_alpha"
-  "Version string for ooo-basic-mode.")
+(defconst libo-basic-mode-version "0.0.5_alpha"
+  "Version string for libo-basic-mode.")
 
-(defgroup ooo-basic nil
-  "Customization variables for `ooo-basic-mode'."
-  :tag "OpenOffice.org Basic"
+(defgroup libo-basic nil
+  "Customization variables for `libo-basic-mode'."
+  :tag "LibreOffice Basic"
   :group 'languages)
 
-(defcustom ooo-basic-indent-level 4
+(defcustom libo-basic-indent-level 4
   "Number of spaces for each indentation step."
   :type 'integer
-  :group 'ooo-basic)
+  :group 'libo-basic)
 
-(defcustom ooo-basic-absolute-indent-level-for-label 1
+(defcustom libo-basic-absolute-indent-level-for-label 1
   "Absolute number of spaces for the indentation of a label."
   :type 'integer
-  :group 'ooo-basic)
+  :group 'libo-basic)
 
-(defvar ooo-basic-mode-map nil
-  "Keymap used in ooo-basic-mode.")
+(defvar libo-basic-mode-map nil
+  "Keymap used in libo-basic-mode.")
 
-(unless ooo-basic-mode-map
-  (setq ooo-basic-mode-map (make-sparse-keymap)))
+(unless libo-basic-mode-map
+  (setq libo-basic-mode-map (make-sparse-keymap)))
 
-(defvar ooo-basic-keywords
+(defvar libo-basic-keywords
   '("As"
     "ByRef"
     "ByVal"
@@ -129,9 +131,9 @@ nil otherwise."
     "While"
     "With"
     )
-  "Reserved keywords for OpenOffice.org Basic.")
+  "Reserved keywords for LibreOffice Basic.")
 
-(defvar ooo-basic-types
+(defvar libo-basic-types
   '("Boolean"
     "Currency"
     "Date"
@@ -143,31 +145,31 @@ nil otherwise."
     "String"
     "Variant"
     )
-  "Basic types used in OpenOffice.org Basic.")
+  "Basic types used in LibreOffice Basic.")
 
-(defvar ooo-basic-global-variables
+(defvar libo-basic-global-variables
   '("Erl" "Err" "Error$"
     "StarDesktop"
     "ThisComponent"
     )
-  "Global Variables provided in OpenOffice.org Basic.")
+  "Global Variables provided in LibreOffice Basic.")
 
-(defvar ooo-basic-builtin-constants
+(defvar libo-basic-builtin-constants
   '("True" "False" "PI")
-  "Builtin constants available in OpenOffice.org Basic.")
+  "Builtin constants available in LibreOffice Basic.")
 
-(defvar ooo-basic-builtin-operators
+(defvar libo-basic-builtin-operators
   '("=" "<" ">" "<=" ">=" "<>" "Is"
     "AND" "EQV" "IMP" "NOT" "OR" "XOR"
     "MOD"
     )
-  "Builtin operators available in OpenOffice.org Basic.")
+  "Builtin operators available in LibreOffice Basic.")
 
-(defvar ooo-basic-builtin-properties
+(defvar libo-basic-builtin-properties
   '("BasicLibraries" "DialogLibraries" "GlobalScope")
-  "Builtin properties available in OpenOffice.org Basic.")
+  "Builtin properties available in LibreOffice Basic.")
 
-(defvar ooo-basic-builtin-functions
+(defvar libo-basic-builtin-functions
   '("CBool" "CDbl" "CInt" "CLng" "CSng" "CStr"
     "CDate" "CDateFromIso" "CDateToIso"
     "DefBool" "DefDate" "DefDbl" "DefInt" "DefLng" "DefObj" "DefVar"
@@ -205,97 +207,97 @@ nil otherwise."
     "CompatibilityMode"
     "FreeLibrary"
     )
-  "Builtin functions available in OpenOffice.org Basic.")
+  "Builtin functions available in LibreOffice Basic.")
 
-(defvar ooo-basic-blank-re
+(defvar libo-basic-blank-re
   "^\\s-*$"
   "Regexp to detect a blank line.")
 
-(defvar ooo-basic-comment-re
+(defvar libo-basic-comment-re
   "^\\s-*\\(?:'\\|Rem\\>\\)"
   "Regexp to detect a line for comment only.")
 
-(defvar ooo-basic-continuation-re
+(defvar libo-basic-continuation-re
   "^.*_\\s-*$"
   "Regexp to detect a line continuing its next one.")
 
-(defvar ooo-basic-definition-start-re
+(defvar libo-basic-definition-start-re
   "^\\s-*\\(?:P\\(?:ublic\\|rivate\\)\\s-+\\)?\\(Sub\\|Function\\|Type\\)\\>"
   "Regexp to detect the start of a definition.")
 
-(defvar ooo-basic-definition-end-re
+(defvar libo-basic-definition-end-re
   "^\\s-*End\\s-+\\(Sub\\|Function\\|Type\\)\\>"
   "Regexp to detect the end of a definition.")
 
-(defvar ooo-basic-label-re
+(defvar libo-basic-label-re
   "^\\s-*\\([a-zA-Z0-9_]+\\):\\(?:$\\|[^=]\\)"
   "Regexp to detect a label.")
 
-(defvar ooo-basic-if-re
+(defvar libo-basic-if-re
   "^\\s-*#?If\\>"
   "Regexp to detect an if line")
 
-(defvar ooo-basic-else-re
+(defvar libo-basic-else-re
   "^\\s-*#?Else\\(?:If\\)?\\>"
   "Regexp to detect an else line.")
 
-(defvar ooo-basic-endif-re
+(defvar libo-basic-endif-re
   "^\\s-*#?End\\s-*If\\>"
   "Regexp to detect an endif line.")
 
-(defvar ooo-basic-case-re
+(defvar libo-basic-case-re
   "^\\s-*#?Case\\>"
   "Regexp to detect a case clause.")
 
-(defvar ooo-basic-select-re
+(defvar libo-basic-select-re
   "^\\s-*#?Select\\s-+Case\\>"
   "Regexp to detect an select line.")
 
-(defvar ooo-basic-end-select-re
+(defvar libo-basic-end-select-re
   "^\\s-*#?End\\s-+Select\\>"
   "Regexp to detect the end of select statement.")
 
-(defvar ooo-basic-for-re
+(defvar libo-basic-for-re
   "^\\s-*#?For\\>"
   "Regexp to detect a for clause.")
 
-(defvar ooo-basic-next-re
+(defvar libo-basic-next-re
   "^\\s-*#?Next\\>"
   "Regexp to detect a next line.")
 
-(defvar ooo-basic-do-re
+(defvar libo-basic-do-re
   "^\\s-*#?Do\\>"
   "Regexp to detect a do line.")
 
-(defvar ooo-basic-loop-re
+(defvar libo-basic-loop-re
   "^\\s-*#?Loop\\>"
   "Regexp to detect a loop line.")
 
-(defvar ooo-basic-while-re
+(defvar libo-basic-while-re
   "^\\s-*#?While\\>"
   "Regexp to detect a while clause.")
 
-(defvar ooo-basic-wend-re
+(defvar libo-basic-wend-re
   "^\\s-*#?Wend\\>"
   "Regexp to detect a wend line.")
 
-(defvar ooo-basic-with-re
+(defvar libo-basic-with-re
   "^\\s-*#?With\\>"
   "Regexp to detect a with clause.")
 
-(defvar ooo-basic-end-with-re
+(defvar libo-basic-end-with-re
   "^\\s-*#?End\\s-+With\\>"
   "Regexp to detect the end of a with statement.")
 
-(defvar ooo-basic-redim-re
+(defvar libo-basic-redim-re
   "\\<ReDim\\(?:\\s-+\\(Preserve\\)\\)?\\s-+\\([A-z_][A-z_0-9]*\\)"
   "Regexp to detect a ReDim statement.")
 
-(defvar ooo-basic-variable-spec-re
+(defvar libo-basic-variable-spec-re
   "\\<\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*(.*)\\)?\\(?:\\s-+As\\s-+[A-z_][A-z_0-9]*\\>\\)?"
   "Regexp to detect a variable occurrence in declaration.")
 
-(defvar ooo-basic-font-lock-keywords-1
+(defvar libo-basic-font-lock-keywords-1
   `(("\\<\\([A-z_][A-z_0-9]*\\)\\([!@#$%&]\\)" ; auto type modifier
      (1 font-lock-variable-name-face)
      (2 font-lock-type-face)
@@ -303,9 +305,9 @@ nil otherwise."
     ("\\<By\\(?:Ref\\|Val\\)\\s-+\\([A-z_][A-z_0-9]*\\)\\(?:\\s-*([^)]*)\\|\\>\\)"
      (1 font-lock-variable-name-face)
      )
-    (,(concat "\\<\\(?:Dim\\|Static\\|Private\\|Public\\)\\s-+" ooo-basic-variable-spec-re)
+    (,(concat "\\<\\(?:Dim\\|Static\\|Private\\|Public\\)\\s-+" libo-basic-variable-spec-re)
      (1 font-lock-variable-name-face)
-     (,ooo-basic-variable-spec-re
+     (,libo-basic-variable-spec-re
       (let* ((s (save-excursion (search-forward "," nil t)))
              (eol (save-excursion (re-search-forward "\\('\\|\\<REM\\>\\|$\\)" nil t))))
         (cond ((and s (<= s eol))
@@ -327,15 +329,15 @@ nil otherwise."
      )
     ("^\\s-*\\(?:P\\(?:rivate\\|ublic\\)\\s-+\\)?\\(?:Sub\\|Function\\)\\s-+\\([A-z_][A-z_0-9]*\\)\\>"
      (1 font-lock-function-name-face)
-     (,(concat "[(,]\\s-*\\(?:Optional\\s-+\\)?\\(?:By\\(?:Ref\\|Val\\)\\s-+\\)?" ooo-basic-variable-spec-re) nil nil
+     (,(concat "[(,]\\s-*\\(?:Optional\\s-+\\)?\\(?:By\\(?:Ref\\|Val\\)\\s-+\\)?" libo-basic-variable-spec-re) nil nil
       (1 font-lock-variable-name-face)
       )
      )
     ("^\\s-*\\(?:P\\(?:rivate\\|ublic\\)\\s-+\\)?Type\\s-+\\([A-z_][A-z_0-9]*\\)\\>"
      (1 font-lock-function-name-face)
      )
-    ,ooo-basic-definition-end-re
-    (,ooo-basic-label-re
+    ,libo-basic-definition-end-re
+    (,libo-basic-label-re
      (1 font-lock-constant-face)
      )
     ("\\<GoTo\\s-+\\([A-z_0-9]+\\)"
@@ -362,7 +364,7 @@ nil otherwise."
     ("\\<Next\\s-+\\([A-z_][A-z_0-9]*\\)\\>"
      (1 font-lock-variable-name-face)
      )
-    (,ooo-basic-redim-re
+    (,libo-basic-redim-re
      (1 font-lock-keyword-face)
      (2 font-lock-variable-name-face)
      )
@@ -381,27 +383,27 @@ nil otherwise."
     )
   "Level 1.")
 
-(defvar ooo-basic-font-lock-keywords-2
-  (append ooo-basic-font-lock-keywords-1
-          `(,(regexp-opt ooo-basic-keywords 'words)
-            (,(regexp-opt ooo-basic-types 'words) 0 font-lock-type-face)
-            (,(regexp-opt (append ooo-basic-builtin-constants
-                                  ooo-basic-global-variables
-                                  ooo-basic-builtin-properties)
+(defvar libo-basic-font-lock-keywords-2
+  (append libo-basic-font-lock-keywords-1
+          `(,(regexp-opt libo-basic-keywords 'words)
+            (,(regexp-opt libo-basic-types 'words) 0 font-lock-type-face)
+            (,(regexp-opt (append libo-basic-builtin-constants
+                                  libo-basic-global-variables
+                                  libo-basic-builtin-properties)
                           'words)
              0 font-lock-constant-face)
             ))
   "Level 2.")
 
-(defvar ooo-basic-font-lock-keywords-3
-  (let ((builtins (append ooo-basic-builtin-operators
-                          ooo-basic-builtin-functions)))
-    (append ooo-basic-font-lock-keywords-2
+(defvar libo-basic-font-lock-keywords-3
+  (let ((builtins (append libo-basic-builtin-operators
+                          libo-basic-builtin-functions)))
+    (append libo-basic-font-lock-keywords-2
             `((,(regexp-opt builtins 'words) 0 font-lock-builtin-face)
               )))
   "Level 3.")
 
-(defvar ooo-basic-mode-syntax-table
+(defvar libo-basic-mode-syntax-table
   (let ((table (make-syntax-table)))
     (with-syntax-table table
       (modify-syntax-entry ?_ "w")
@@ -415,9 +417,9 @@ nil otherwise."
       (modify-syntax-entry ?\> ".")
       (modify-syntax-entry ?# "'")
       table))
-  "Syntax table used in ooo-basic-mode.")
+  "Syntax table used in libo-basic-mode.")
 
-(defvar ooo-basic-uno-modules
+(defvar libo-basic-uno-modules
   '((com
      (sun
       (star
@@ -559,7 +561,7 @@ nil otherwise."
   "Modules in UNO."
   )
 
-(defvar ooo-basic-uno-constants
+(defvar libo-basic-uno-constants
   '((com
      (sun
       (star
@@ -4039,7 +4041,7 @@ nil otherwise."
      ))
   "Constants in UNO.")
 
-(defun ooo-basic-uno-constants-to-constant-groups (constants)
+(defun libo-basic-uno-constants-to-constant-groups (constants)
   "Return the constant groups in UNO from constants."
   (filter-map
    #'(lambda (y)
@@ -4047,24 +4049,24 @@ nil otherwise."
         (or (cdr y)
             (not (symbolp (car y))))
         (cons (car y)
-              (ooo-basic-uno-constants-to-constant-groups (cdr y)))))
+              (libo-basic-uno-constants-to-constant-groups (cdr y)))))
    constants))
 
-(defvar ooo-basic-uno-constant-groups
-  (ooo-basic-uno-constants-to-constant-groups
-   ooo-basic-uno-constants)
+(defvar libo-basic-uno-constant-groups
+  (libo-basic-uno-constants-to-constant-groups
+   libo-basic-uno-constants)
   "Constant Groups in UNO.")
 
-(defvar ooo-basic-idl-reference-url-base
+(defvar libo-basic-idl-reference-url-base
   "http://api.openoffice.org/docs/common/ref/"
   "The base URL for the IDL reference.")
 
-(defun ooo-basic-uno-name-to-list (name)
+(defun libo-basic-uno-name-to-list (name)
   "Return the list of symbols obtained by splitting the argument at '.'."
   (and (< 0 (length name))
        (mapcar 'intern (split-string name "\\."))))
 
-(defun ooo-basic-possible-sequences (forest)
+(defun libo-basic-possible-sequences (forest)
   (append-map
    #'(lambda (tree)
        (let ((head (car tree))
@@ -4073,23 +4075,23 @@ nil otherwise."
              (mapcar
               #'(lambda (rest)
                   (concat (symbol-name head) "." rest))
-              (ooo-basic-possible-sequences (cdr tree)))
+              (libo-basic-possible-sequences (cdr tree)))
            (list (symbol-name head)))))
    forest))
 
-(defun ooo-basic-traverse (seq forest)
+(defun libo-basic-traverse (seq forest)
   (and forest
        (let ((head (car seq))
              (tail (cdr seq)))
          (if tail
-             (ooo-basic-traverse tail (assoc-default head forest))
+             (libo-basic-traverse tail (assoc-default head forest))
            (let ((s (symbol-name head)))
              (append-map
               #'(lambda (tree)
                   (let ((h (car tree)))
                     (if h
                         (and (initial-string-p s (symbol-name h))
-                             (ooo-basic-possible-sequences (list tree)))
+                             (libo-basic-possible-sequences (list tree)))
                       (filter-map
                        #'(lambda (leaf)
                            (let ((str (symbol-name leaf)))
@@ -4097,143 +4099,143 @@ nil otherwise."
                        (cdr tree)))))
               forest))))))
 
-(defun ooo-basic-uno-completion-function (str forest)
-  (let* ((seq (ooo-basic-uno-name-to-list str))
+(defun libo-basic-uno-completion-function (str forest)
+  (let* ((seq (libo-basic-uno-name-to-list str))
          (seb (mapconcat 'symbol-name (butlast seq) ".")))
     (with-index
      (mapcar
       #'(lambda (x) (if (= 0 (length seb)) x (concat seb "." x)))
-      (ooo-basic-traverse seq forest)))))
+      (libo-basic-traverse seq forest)))))
 
-(defun ooo-basic-uno-name-completion (str)
-  (ooo-basic-uno-completion-function
+(defun libo-basic-uno-name-completion (str)
+  (libo-basic-uno-completion-function
    str
-   (append ooo-basic-uno-modules ooo-basic-uno-constants)))
+   (append libo-basic-uno-modules libo-basic-uno-constants)))
 
-(defun ooo-basic-uno-constant-name-completion (str)
-  (ooo-basic-uno-completion-function
+(defun libo-basic-uno-constant-name-completion (str)
+  (libo-basic-uno-completion-function
    str
-   ooo-basic-uno-constants))
+   libo-basic-uno-constants))
 
-(defun ooo-basic-insert-uno-constant ()
+(defun libo-basic-insert-uno-constant ()
   "Insert a constant in UNO."
   (interactive)
   (insert
    (completing-read
     "Constant: "
-    (dynamic-completion-table ooo-basic-uno-constant-name-completion))))
+    (dynamic-completion-table libo-basic-uno-constant-name-completion))))
 
-(defun ooo-basic-uno-module-name-p (name)
+(defun libo-basic-uno-module-name-p (name)
   "Return non-nil if there exists a UNO module which has the given name,
 nil otherwise."
-  (let ((seq (ooo-basic-uno-name-to-list name)))
+  (let ((seq (libo-basic-uno-name-to-list name)))
     (and seq
-         (ooo-basic-traverse seq ooo-basic-uno-modules))))
+         (libo-basic-traverse seq libo-basic-uno-modules))))
 
-(defun ooo-basic-uno-name-of-path (name forest)
-  (let ((seq (ooo-basic-uno-name-to-list name)))
+(defun libo-basic-uno-name-of-path (name forest)
+  (let ((seq (libo-basic-uno-name-to-list name)))
     (and seq
-         (let ((s (ooo-basic-traverse seq forest)))
+         (let ((s (libo-basic-traverse seq forest)))
            (and s
                 (null (cdr s))
                 (not (string-match "\\." (car s))))))))
 
-(defun ooo-basic-uno-constant-group-name-p (name)
+(defun libo-basic-uno-constant-group-name-p (name)
   "Return non-nil if there exists a UNO constant group which has the given name,
 nil otherwise."
-  (ooo-basic-uno-name-of-path name ooo-basic-uno-constant-groups))
+  (libo-basic-uno-name-of-path name libo-basic-uno-constant-groups))
 
-(defun ooo-basic-uno-constant-name-p (name)
+(defun libo-basic-uno-constant-name-p (name)
   "Return non-nil if there exists a UNO constant which has the given name,
 nil otherwise."
-  (ooo-basic-uno-name-of-path name ooo-basic-uno-constants))
+  (libo-basic-uno-name-of-path name libo-basic-uno-constants))
 
-(defun ooo-basic-uno-name-p (name)
+(defun libo-basic-uno-name-p (name)
   "Return non-nil if there exists a UNO module, constant group, or constant
 which has the given name, nil otherwise."
-  (or (ooo-basic-uno-module-name-p name)
-      (ooo-basic-uno-constant-group-name-p name)
-      (ooo-basic-uno-constant-name-p name)))
+  (or (libo-basic-uno-module-name-p name)
+      (libo-basic-uno-constant-group-name-p name)
+      (libo-basic-uno-constant-name-p name)))
 
-(defun ooo-basic-idl-reference-url (name)
+(defun libo-basic-idl-reference-url (name)
   "Return the URL of the IDL reference of a given name."
   (let ((slashed (replace-regexp-in-string "\\." "/" name)))
-    (cond ((ooo-basic-uno-module-name-p name)
-           (concat ooo-basic-idl-reference-url-base slashed "/module-ix.html"))
-          ((ooo-basic-uno-constant-group-name-p name)
-           (concat ooo-basic-idl-reference-url-base slashed ".html"))
-          ((ooo-basic-uno-constant-name-p name)
+    (cond ((libo-basic-uno-module-name-p name)
+           (concat libo-basic-idl-reference-url-base slashed "/module-ix.html"))
+          ((libo-basic-uno-constant-group-name-p name)
+           (concat libo-basic-idl-reference-url-base slashed ".html"))
+          ((libo-basic-uno-constant-name-p name)
            (let ((seq (split-string name "\\.")))
              (apply 'concat
-                    ooo-basic-idl-reference-url-base
+                    libo-basic-idl-reference-url-base
                     (mapconcat 'identity (butlast seq) "/")
                     ".html#"
                     (last seq)))))))
 
-(defun ooo-basic-browse-idl-reference ()
+(defun libo-basic-browse-idl-reference ()
   "Browse the IDL reference on a given topic."
   (interactive)
   (let* ((word (current-word))
-         (default (if (ooo-basic-uno-name-p word) word nil))
+         (default (if (libo-basic-uno-name-p word) word nil))
          (name (completing-read
                 (if default
                     (concat "Name (default " default "): ")
                   "Name: ")
-                (dynamic-completion-table ooo-basic-uno-name-completion)
+                (dynamic-completion-table libo-basic-uno-name-completion)
                 nil
                 t
                 nil
                 nil
                 default))
-         (url (ooo-basic-idl-reference-url name)))
+         (url (libo-basic-idl-reference-url name)))
     (if url
         (browse-url url)
       (message "name '%s' is not a UNO one." name))))
 
-(defun ooo-basic-beginning-of-defun ()
+(defun libo-basic-beginning-of-defun ()
   "Go back to the beginning of the definition in question."
   (interactive)
-  (re-search-backward ooo-basic-definition-start-re nil t))
+  (re-search-backward libo-basic-definition-start-re nil t))
 
-(defun ooo-basic-end-of-defun ()
+(defun libo-basic-end-of-defun ()
   "Go forth to the end of the definition in question."
   (interactive)
-  (re-search-forward ooo-basic-definition-end-re nil t))
+  (re-search-forward libo-basic-definition-end-re nil t))
 
-(defun ooo-basic-previous-line-of-code ()
+(defun libo-basic-previous-line-of-code ()
   "Move backward to reach a code line."
   (forward-line -1)
   (while (and (not (bobp))
-              (or (looking-at ooo-basic-blank-re)
-                  (looking-at ooo-basic-comment-re)))
+              (or (looking-at libo-basic-blank-re)
+                  (looking-at libo-basic-comment-re)))
     (forward-line -1)))
 
-(defun ooo-basic-find-original-statement ()
+(defun libo-basic-find-original-statement ()
   "Find an original line which starts as a logical one."
   (let ((here (point)))
-    (ooo-basic-previous-line-of-code)
+    (libo-basic-previous-line-of-code)
     (while (and (not (bobp))
-                (looking-at ooo-basic-continuation-re))
+                (looking-at libo-basic-continuation-re))
       (setq here (point))
-      (ooo-basic-previous-line-of-code))
+      (libo-basic-previous-line-of-code))
     (goto-char here)))
 
-(defun %ooo-basic-find-matching-statement (open-p close-p)
+(defun %libo-basic-find-matching-statement (open-p close-p)
   (let ((level 0))
     (while (and (>= level 0) (not (bobp)))
-      (ooo-basic-previous-line-of-code)
-      (ooo-basic-find-original-statement)
+      (libo-basic-previous-line-of-code)
+      (libo-basic-find-original-statement)
       (cond ((funcall close-p)
              (setq level (+ level 1)))
             ((funcall open-p)
              (setq level (- level 1)))))))
 
-(defun ooo-basic-find-matching-statement (open-re close-re)
-  (%ooo-basic-find-matching-statement
+(defun libo-basic-find-matching-statement (open-re close-re)
+  (%libo-basic-find-matching-statement
    #'(lambda () (looking-at open-re))
    #'(lambda () (looking-at close-re))))
 
-(defun ooo-basic-start-and-end-p (open-re close-function)
+(defun libo-basic-start-and-end-p (open-re close-function)
   (and (looking-at open-re)
        (save-excursion
          (beginning-of-line)
@@ -4272,10 +4274,10 @@ which has the given name, nil otherwise."
                (setq complete-line (substring complete-line 0 p1))))
            (funcall close-function complete-line)))))
 
-(defun ooo-basic-multiline-if-p ()
+(defun libo-basic-multiline-if-p ()
   "Decide whether an if statement begins but not single line."
-  (ooo-basic-start-and-end-p
-   ooo-basic-if-re
+  (libo-basic-start-and-end-p
+   libo-basic-if-re
    #'(lambda (complete-line)
        ;; now drop 1st concatenated instruction is any
        (let ((p1 (string-match ":" complete-line)))
@@ -4283,77 +4285,77 @@ which has the given name, nil otherwise."
            (setq complete-line (substring complete-line 0 p1))))
        (string-match "Then\\s-*$" complete-line))))
 
-(defun ooo-basic-multiline-do-p ()
+(defun libo-basic-multiline-do-p ()
   "Decide whether an do statement begins but not single line."
-  (ooo-basic-start-and-end-p
-   ooo-basic-do-re
+  (libo-basic-start-and-end-p
+   libo-basic-do-re
    #'(lambda (complete-line)
        (not (string-match "\\<Loop\\>" complete-line)))))
 
-(defun ooo-basic-find-matching-if ()
+(defun libo-basic-find-matching-if ()
   "Move backward to find the matching if."
-  (%ooo-basic-find-matching-statement
-   'ooo-basic-multiline-if-p
-   #'(lambda () (looking-at ooo-basic-endif-re))))
+  (%libo-basic-find-matching-statement
+   'libo-basic-multiline-if-p
+   #'(lambda () (looking-at libo-basic-endif-re))))
 
-(defun ooo-basic-find-matching-select ()
+(defun libo-basic-find-matching-select ()
   "Move backward to find the matching select."
-  (ooo-basic-find-matching-statement ooo-basic-select-re ooo-basic-end-select-re))
+  (libo-basic-find-matching-statement libo-basic-select-re libo-basic-end-select-re))
 
-(defun ooo-basic-find-matching-do ()
+(defun libo-basic-find-matching-do ()
   "Move backward to find the mathing do."
-  (%ooo-basic-find-matching-statement
-   'ooo-basic-multiline-do-p
-   #'(lambda () (looking-at ooo-basic-loop-re))))
+  (%libo-basic-find-matching-statement
+   'libo-basic-multiline-do-p
+   #'(lambda () (looking-at libo-basic-loop-re))))
 
-(defun ooo-basic-find-matching-for ()
+(defun libo-basic-find-matching-for ()
   "Move backward to find the matching for."
-  (ooo-basic-find-matching-statement ooo-basic-for-re ooo-basic-next-re))
+  (libo-basic-find-matching-statement libo-basic-for-re libo-basic-next-re))
 
-(defun ooo-basic-find-matching-while ()
+(defun libo-basic-find-matching-while ()
   "Move backward to find the matching while."
-  (ooo-basic-find-matching-statement ooo-basic-while-re ooo-basic-wend-re))
+  (libo-basic-find-matching-statement libo-basic-while-re libo-basic-wend-re))
 
-(defun ooo-basic-find-matching-with ()
+(defun libo-basic-find-matching-with ()
   "Move backward to find the matching with."
-  (ooo-basic-find-matching-statement ooo-basic-with-re ooo-basic-end-with-re))
+  (libo-basic-find-matching-statement libo-basic-with-re libo-basic-end-with-re))
 
-(defun ooo-basic-indentation (current-point parse-status)
+(defun libo-basic-indentation (current-point parse-status)
   "Return the proper indentation for the current line."
   (save-excursion
     (beginning-of-line)
-    (cond ((looking-at ooo-basic-definition-start-re) 0)
-          ((looking-at ooo-basic-definition-end-re) 0)
-          ((looking-at ooo-basic-label-re)
-           ooo-basic-absolute-indent-level-for-label)
-          ((or (looking-at ooo-basic-else-re)
-               (looking-at ooo-basic-endif-re))
-           (ooo-basic-find-matching-if)
+    (cond ((looking-at libo-basic-definition-start-re) 0)
+          ((looking-at libo-basic-definition-end-re) 0)
+          ((looking-at libo-basic-label-re)
+           libo-basic-absolute-indent-level-for-label)
+          ((or (looking-at libo-basic-else-re)
+               (looking-at libo-basic-endif-re))
+           (libo-basic-find-matching-if)
            (current-indentation))
-          ((looking-at ooo-basic-end-select-re)
-           (ooo-basic-find-matching-select)
+          ((looking-at libo-basic-end-select-re)
+           (libo-basic-find-matching-select)
            (current-indentation))
-          ((looking-at ooo-basic-case-re)
-           (ooo-basic-find-matching-select)
-           (+ (current-indentation) ooo-basic-indent-level))
-          ((looking-at ooo-basic-loop-re)
-           (ooo-basic-find-matching-do)
+          ((looking-at libo-basic-case-re)
+           (libo-basic-find-matching-select)
+           (+ (current-indentation) libo-basic-indent-level))
+          ((looking-at libo-basic-loop-re)
+           (libo-basic-find-matching-do)
            (current-indentation))
-          ((looking-at ooo-basic-next-re)
-           (ooo-basic-find-matching-for)
+          ((looking-at libo-basic-next-re)
+           (libo-basic-find-matching-for)
            (current-indentation))
-          ((looking-at ooo-basic-wend-re)
-           (ooo-basic-find-matching-while)
+          ((looking-at libo-basic-wend-re)
+           (libo-basic-find-matching-while)
            (current-indentation))
-          ((looking-at ooo-basic-end-with-re)
-           (ooo-basic-find-matching-with)
+          ((looking-at libo-basic-end-with-re)
+           (libo-basic-find-matching-with)
            (current-indentation))
           (t
-           (ooo-basic-previous-line-of-code)
-           (while (looking-at ooo-basic-label-re)
-             (ooo-basic-previous-line-of-code))
-           (cond ((looking-at ooo-basic-continuation-re)
-                  (ooo-basic-find-original-statement)
+           (libo-basic-previous-line-of-code)
+           (while (looking-at libo-basic-label-re)
+             (libo-basic-previous-line-of-code))
+           (cond ((looking-at libo-basic-continuation-re)
+                  (libo-basic-find-original-statement)
                   ;; Indent continuation line under matching open paren,
                   ;; or else one word in.
                   (let* ((orig (point))
@@ -4376,22 +4378,22 @@ which has the given name, nil otherwise."
                         (forward-char))
                       (current-column))))
                  (t
-                  (ooo-basic-find-original-statement)
+                  (libo-basic-find-original-statement)
                   (let* ((cur (current-indentation))
-                         (tmp (+ cur ooo-basic-indent-level)))
-                    (cond ((looking-at ooo-basic-definition-start-re) tmp)
-                          ((ooo-basic-multiline-if-p) tmp)
-                          ((looking-at ooo-basic-else-re) tmp)
-                          ((looking-at ooo-basic-select-re) tmp)
-                          ((looking-at ooo-basic-case-re) tmp)
-                          ((ooo-basic-multiline-do-p) tmp)
-                          ((looking-at ooo-basic-for-re) tmp)
-                          ((looking-at ooo-basic-while-re) tmp)
-                          ((looking-at ooo-basic-with-re) tmp)
+                         (tmp (+ cur libo-basic-indent-level)))
+                    (cond ((looking-at libo-basic-definition-start-re) tmp)
+                          ((libo-basic-multiline-if-p) tmp)
+                          ((looking-at libo-basic-else-re) tmp)
+                          ((looking-at libo-basic-select-re) tmp)
+                          ((looking-at libo-basic-case-re) tmp)
+                          ((libo-basic-multiline-do-p) tmp)
+                          ((looking-at libo-basic-for-re) tmp)
+                          ((looking-at libo-basic-while-re) tmp)
+                          ((looking-at libo-basic-with-re) tmp)
                           (t cur)))))))))
 
-(defun ooo-basic-indent-line ()
-  "Indent the current line as OpenOffice.org Basic source text."
+(defun libo-basic-indent-line ()
+  "Indent the current line as LibreOffice Basic source text."
   (interactive)
   (let ((status (save-excursion
                   (if (functionp 'syntax-ppss)
@@ -4399,21 +4401,21 @@ which has the given name, nil otherwise."
                     (parse-partial-sexp (point-min) (point-at-bol)))))
         (offset (- (current-column) (current-indentation))))
     (unless (nth 8 status)
-      (indent-line-to (ooo-basic-indentation (point) status))
+      (indent-line-to (libo-basic-indentation (point) status))
       (when (< 0 offset) (forward-char offset)))))
 
-(defvar ooo-basic-definition-templates
+(defvar libo-basic-definition-templates
   '("Sub ()\nEnd Sub\n\n"
     "Function () As Variant\nEnd Function\n\n"
     "Type \nEnd Type\n\n")
-  "List of definition templates though which ooo-basic-new-definition cycles.")
+  "List of definition templates though which libo-basic-new-definition cycles.")
 
-(defun ooo-basic-new-definition ()
+(defun libo-basic-new-definition ()
   "Insert template for a new definition. Repeat to cycle through alternatives."
   (interactive)
   (beginning-of-line)
-  (let ((templates ooo-basic-definition-templates)
-        (temp ooo-basic-blank-re)
+  (let ((templates libo-basic-definition-templates)
+        (temp libo-basic-blank-re)
         (bound (point)))
     (while temp
       (cond ((looking-at temp)
@@ -4425,87 +4427,87 @@ which has the given name, nil otherwise."
     (goto-char bound)
     (when templates (search-forward " " nil t))))
 
-(defconst ooo-basic-ooo-process-name
-  "OpenOffice.org"
-  "Name of OpenOffice.org process.")
+(defconst libo-basic-libo-process-name
+  "LibreOffice"
+  "Name of LibreOffice process.")
 
-(defconst ooo-basic-ooo-buffer-name
-  "*OpenOffice.org*"
-  "Name of buffer associated with OpenOffice.org process.")
+(defconst libo-basic-libo-buffer-name
+  "*LibreOffice*"
+  "Name of buffer associated with LibreOffice process.")
 
-(defvar ooo-basic-ooo-program-directory
-  "/opt/openoffice.org3/program"
-  "Directory of OpenOffice.org program.")
+(defvar libo-basic-libo-program-directory
+  "/opt/libreoffice3/program"
+  "Directory of LibreOffice program.")
 
-(defun ooo-basic-ooo-soffice ()
-  "Path of the program of OpenOffice.org installation."
-  (concat ooo-basic-ooo-program-directory "/soffice"))
+(defun libo-basic-libo-soffice ()
+  "Path of the program of LibreOffice installation."
+  (concat libo-basic-libo-program-directory "/soffice"))
 
-(defun ooo-basic-start-ooo ()
-  "Start OpenOffice.org."
+(defun libo-basic-start-libo ()
+  "Start LibreOffice."
   (interactive)
-  (start-process ooo-basic-ooo-process-name
-                 ooo-basic-ooo-buffer-name
-                 (ooo-basic-ooo-soffice))
-  (display-buffer ooo-basic-ooo-buffer-name))
+  (start-process libo-basic-libo-process-name
+                 libo-basic-libo-buffer-name
+                 (libo-basic-libo-soffice))
+  (display-buffer libo-basic-libo-buffer-name))
 
-(defun ooo-basic-quit-ooo ()
-  "Quit OpenOffice.org."
+(defun libo-basic-quit-libo ()
+  "Quit LibreOffice."
   (interactive)
-  (quit-process ooo-basic-ooo-process-name)
-  (delete-windows-on ooo-basic-ooo-buffer-name))
+  (quit-process libo-basic-libo-process-name)
+  (delete-windows-on libo-basic-libo-buffer-name))
 
-(defun ooo-basic-call-macro-by-name (name)
-  "Call a macro of OpenOffice.org by its name."
+(defun libo-basic-call-macro-by-name (name)
+  "Call a macro of LibreOffice by its name."
   (interactive "sMacro (e.g., 'Standard.Module1.Main'): ")
-  (start-process ooo-basic-ooo-process-name
-                 ooo-basic-ooo-buffer-name
-                 (ooo-basic-ooo-soffice)
+  (start-process libo-basic-libo-process-name
+                 libo-basic-libo-buffer-name
+                 (libo-basic-libo-soffice)
                  (concat "macro:///" name))
-  (display-buffer ooo-basic-ooo-buffer-name))
+  (display-buffer libo-basic-libo-buffer-name))
 
-(defun ooo-basic-mode-version ()
-  "Echo the current version of ooo-basic-mode in the minibuffer."
+(defun libo-basic-mode-version ()
+  "Echo the current version of libo-basic-mode in the minibuffer."
   (interactive)
-  (message "ooo-basic-mode %s" ooo-basic-mode-version))
+  (message "libo-basic-mode %s" libo-basic-mode-version))
 
-(defun ooo-basic-mode ()
-  "A major mode for editing OpenOffice.org Basic programs.
-Turning on ooo-basic-mode runs the hook `ooo-basic-mode-hook'.
-To see what version of ooo-basic-mode you are running, enter `\\[ooo-basic-mode-version]'.
+(defun libo-basic-mode ()
+  "A major mode for editing LibreOffice/OpenOffice.org Basic programs.
+Turning on libo-basic-mode runs the hook `libo-basic-mode-hook'.
+To see what version of libo-basic-mode you are running, enter `\\[libo-basic-mode-version]'.
 
 Key bindings:
-\\{ooo-basic-mode-map}"
+\\{libo-basic-mode-map}"
   (interactive)
   (kill-all-local-variables)
-  (use-local-map ooo-basic-mode-map)
-  (define-key ooo-basic-mode-map "\C-c\C-ic" 'ooo-basic-insert-uno-constant)
-  (define-key ooo-basic-mode-map "\C-c\C-b" 'ooo-basic-browse-idl-reference)
-  (define-key ooo-basic-mode-map "\C-c\C-n" 'ooo-basic-new-definition)
-  (define-key ooo-basic-mode-map "\C-c\C-s" 'ooo-basic-start-ooo)
-  (define-key ooo-basic-mode-map "\C-c\C-q" 'ooo-basic-quit-ooo)
-  (define-key ooo-basic-mode-map "\C-c\C-cm" 'ooo-basic-call-macro-by-name)
-  (set-syntax-table ooo-basic-mode-syntax-table)
+  (use-local-map libo-basic-mode-map)
+  (define-key libo-basic-mode-map "\C-c\C-ic" 'libo-basic-insert-uno-constant)
+  (define-key libo-basic-mode-map "\C-c\C-b" 'libo-basic-browse-idl-reference)
+  (define-key libo-basic-mode-map "\C-c\C-n" 'libo-basic-new-definition)
+  (define-key libo-basic-mode-map "\C-c\C-s" 'libo-basic-start-libo)
+  (define-key libo-basic-mode-map "\C-c\C-q" 'libo-basic-quit-libo)
+  (define-key libo-basic-mode-map "\C-c\C-cm" 'libo-basic-call-macro-by-name)
+  (set-syntax-table libo-basic-mode-syntax-table)
   (set (make-local-variable 'comment-start) "'")
   (set (make-local-variable 'comment-end) "")
-  (set (make-local-variable 'indent-line-function) 'ooo-basic-indent-line)
+  (set (make-local-variable 'indent-line-function) 'libo-basic-indent-line)
   (set (make-local-variable 'beginning-of-defun-function)
-       'ooo-basic-beginning-of-defun)
+       'libo-basic-beginning-of-defun)
   (set (make-local-variable 'end-of-defun-function)
-       'ooo-basic-end-of-defun)
+       'libo-basic-end-of-defun)
   (set (make-local-variable 'parse-sexp-ignore-comments) t)
   (set (make-local-variable 'font-lock-defaults)
-       '((ooo-basic-font-lock-keywords-1
-          ooo-basic-font-lock-keywords-2
-          ooo-basic-font-lock-keywords-3)
+       '((libo-basic-font-lock-keywords-1
+          libo-basic-font-lock-keywords-2
+          libo-basic-font-lock-keywords-3)
          nil t nil))
-  (setq major-mode 'ooo-basic-mode)
-  (setq mode-name "OOo-Basic")
+  (setq major-mode 'libo-basic-mode)
+  (setq mode-name "LibO-BASIC")
   (if (functionp 'run-mode-hooks)
-      (run-mode-hooks 'ooo-basic-mode-hook)
-    (run-hooks 'ooo-basic-mode-hook)
+      (run-mode-hooks 'libo-basic-mode-hook)
+    (run-hooks 'libo-basic-mode-hook)
     (when (boundp 'after-change-major-mode-hook)
       (run-hooks 'after-change-major-mode-hook))))
 
-(provide 'ooo-basic-mode)
-;;; ooo-basic-mode.el ends here
+(provide 'libo-basic-mode)
+;;; libo-basic-mode.el ends here

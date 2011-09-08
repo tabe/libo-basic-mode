@@ -4058,7 +4058,7 @@ nil otherwise."
   "Constant Groups in UNO.")
 
 (defvar libo-basic-idl-reference-url-base
-  "http://api.openoffice.org/docs/common/ref/"
+  "http://api.libreoffice.org/docs/common/ref/"
   "The base URL for the IDL reference.")
 
 (defun libo-basic-uno-name-to-list (name)

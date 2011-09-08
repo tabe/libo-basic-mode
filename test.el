@@ -173,9 +173,9 @@
 (assert (libo-basic-uno-name-p "com.sun.star.accessibility.AccessibleEventId.NAME_CHANGED"))
 (assert (libo-basic-uno-name-p "com.sun.star.xsd.WhiteSpaceTreatment.Collapse"))
 
-(assert (string= "http://api.openoffice.org/docs/common/ref/com/sun/star/module-ix.html"
+(assert (string= "http://api.libreoffice.org/docs/common/ref/com/sun/star/module-ix.html"
                  (libo-basic-idl-reference-url "com.sun.star")))
-(assert (string= "http://api.openoffice.org/docs/common/ref/com/sun/star/accessibility/AccessibleEventId.html"
+(assert (string= "http://api.libreoffice.org/docs/common/ref/com/sun/star/accessibility/AccessibleEventId.html"
                  (libo-basic-idl-reference-url "com.sun.star.accessibility.AccessibleEventId")))
-(assert (string= "http://api.openoffice.org/docs/common/ref/com/sun/star/script/browse/BrowseNodeFactoryViewTypes.html#MACROSELECTOR"
+(assert (string= "http://api.libreoffice.org/docs/common/ref/com/sun/star/script/browse/BrowseNodeFactoryViewTypes.html#MACROSELECTOR"
                  (libo-basic-idl-reference-url "com.sun.star.script.browse.BrowseNodeFactoryViewTypes.MACROSELECTOR")))

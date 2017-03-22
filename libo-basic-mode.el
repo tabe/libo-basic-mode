@@ -1,5 +1,5 @@
 ;;; libo-basic-mode.el
-;;; -- A major mode for editing LibreOffice/OpenOffice.org Basic programs
+;;; -- A major mode for editing LibreOffice Basic programs
 
 ;; Copyright (C) 2009,2011 Takeshi Abe <tabe@fixedpoint.jp>
 ;;
@@ -24,7 +24,7 @@
 ;; Put libo-basic-mode.el somewhere in your path, compile it, and
 ;; add the following to your .emacs:
 ;; (autoload 'libo-basic-mode "libo-basic-mode"
-;;           "A major mode for LibreOffice/OpenOffice.org Basic." t)
+;;           "A major mode for LibreOffice Basic." t)
 ;; (push '("\\.bas\\'" . libo-basic-mode) auto-mode-alist)
 ;; (setq libo-basic-libo-program-directory "/var/lib/libreoffice3/program")
 
@@ -4472,7 +4472,7 @@ which has the given name, nil otherwise."
   (message "libo-basic-mode %s" libo-basic-mode-version))
 
 (defun libo-basic-mode ()
-  "A major mode for editing LibreOffice/OpenOffice.org Basic programs.
+  "A major mode for editing LibreOffice Basic programs.
 Turning on libo-basic-mode runs the hook `libo-basic-mode-hook'.
 To see what version of libo-basic-mode you are running, enter `\\[libo-basic-mode-version]'.
 

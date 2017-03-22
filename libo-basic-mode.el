@@ -26,7 +26,7 @@
 ;; (autoload 'libo-basic-mode "libo-basic-mode"
 ;;           "A major mode for LibreOffice Basic." t)
 ;; (push '("\\.bas\\'" . libo-basic-mode) auto-mode-alist)
-;; (setq libo-basic-libo-program-directory "/var/lib/libreoffice3/program")
+;; (setq libo-basic-libo-program-directory "/usr/lib/libreoffice/program")
 
 ;; Code:
 
@@ -4436,7 +4436,7 @@ which has the given name, nil otherwise."
   "Name of buffer associated with LibreOffice process.")
 
 (defvar libo-basic-libo-program-directory
-  "/opt/libreoffice3/program"
+  "/opt/libreoffice5.3/program"
   "Directory of LibreOffice program.")
 
 (defun libo-basic-libo-soffice ()
